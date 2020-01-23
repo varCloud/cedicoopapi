@@ -1,0 +1,49 @@
+﻿@model IEnumerable<CEDICOOP.Models.Asamblea>
+
+
+<div class="col-lg-12">
+    <div class="card card-statistics">
+        <div class="card-body">
+            <div class="export-table-wrapper table-responsive">
+                <table id="tblAsam" class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th></th>
+                            <th>#</th>
+                            <th>Nombre</th>
+                            <th># Acuerdos</th>
+                            <th>Direccion Asamblea</th>
+                            <th>Fecha Asamblea</th>
+                            <th>Estatus</th>
+                            <th>#Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="details-control"><a href="#" data-toggle="tooltip" title="Ver Acuerdos" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-info"><i class="fa fa-search-plus"></i></a></td>
+                                <td class="id-asamblea">@item.IdAsamblea</td>
+                                <td>@item.NombreAsamblea</td>
+                                <td>@item.TotalAcuerdos</td>
+                                <td>@item.Direccion</td>
+                                <td>@item.FechaAsamblea.ToShortDateString()</td>
+                                <td>@item.EstatusAsamblea</td>
+                                <td>
+                                    <a href="javascript:EditarAsamblea(@item.IdAsamblea,@Convert.ToInt16(CEDICOOP.Models.AccionAcuerdo.Agregar));" data-toggle="tooltip" title="Editar Asamblea" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-primary"><i class="fa fa-edit"></i></a>&nbsp;
+                                    <a href="javascript:EliminarAsamblea(@item.IdAsamblea);" data-toggle="tooltip" title="Eliminar Asamblea" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-dark"><i class="ti ti-close"></i></a>
+                                    <a href="javascript:ActivarAsamblea(@item.IdAsamblea);" data-toggle="tooltip" title="Activar Asamblea" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-info"><i class="ti ti-check"></i></a>
+                                    <a href="javascript:AgregarActivarAcuerdos(@item.IdAsamblea,@Convert.ToInt16(CEDICOOP.Models.AccionAcuerdo.Agregar));" data-toggle="tooltip" title="Agregar Acuerdos" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-success"><i class="fa fa-plus"></i></a>
+                                    <a href="javascript:AgregarActivarAcuerdos(@item.IdAsamblea,@Convert.ToInt16(@CEDICOOP.Models.AccionAcuerdo.Activar));" data-toggle="tooltip" title="Activar Acuerdos" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-warning"><i class="fa fa-check-square-o"></i></a>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

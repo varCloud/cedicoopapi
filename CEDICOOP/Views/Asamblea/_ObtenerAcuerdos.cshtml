@@ -1,0 +1,45 @@
+﻿@using CEDICOOP.Utilidades
+@model IEnumerable<CEDICOOP.Models.Acuerdo>
+@{
+    CEDICOOP.Models.AccionAcuerdo accion = ViewBag.accion;
+}
+@if (Model.Count() > 0)
+{
+    <div class="card card-statistics h-100 mb-0 widget-downloads-list col-md-12">
+        <div class="card-body scrollbar scroll_dark">
+            @foreach (var item in Model)
+            {
+                <div class="widget-text">
+                    <div class="media align-items-center">
+                        @Html.DisplayFor(modelItem => item.NoAcuerdo)
+                        <div class="media-body" style="margin-left:10px; margin-right:10px;">
+                            <h4 class="mb-0 ml-3" id="h4_@item.IdAcuerdo"> @Html.DisplayFor(modelItem => item.Descripcion)</h4>
+                            @Html.TextArea("descAcuerdoEditar_" + item.IdAcuerdo, item.Descripcion, new { @class = "form-control", @rows = "2", @style = "display:none" })
+                        </div>
+                        @if (accion == CEDICOOP.Models.AccionAcuerdo.Agregar)
+                        {
+                            <div id="dvAcciones_@item.IdAcuerdo">
+                                <a href="javascript:ActivarEditarAcuerdo('@Html.Raw(@item.Descripcion)',@item.IdAsamblea,@item.IdAcuerdo);" data-toggle="tooltip" title="Editar" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-primary"><i class="fa fa-edit"></i></a>
+                                @Ajax.RawActionLink(string.Format("<i class='ti ti-close'></i>"), "EliminarAcuerdo", "Asamblea", new { IdAcuerdo = item.IdAcuerdo, IdAsamblea = item.IdAsamblea }, new AjaxOptions { OnSuccess = "SuccessEliminaAcuerdo", HttpMethod = "POST" }, new { @title = "Eliminar", @class = "tooltip-wrapper btn btn-icon btn-round btn-outline-danger ml-2" })
+                            </div>
+                            <div id="dvGuardaAcuerdo_@item.IdAcuerdo" style="display:none">
+                                <a href="javascript:GuardarEditarAcuerdo('@Html.Raw(@item.Descripcion)',@item.IdAsamblea,@item.IdAcuerdo);" data-toggle="tooltip" title="Guardar" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-success"><i class="ti ti-save-alt"></i></a>
+                            </div>
+                        }
+                        else
+                        {
+                            <a href="javascript:ActivarAcuerdo(@Convert.ToInt16(item.activarVotacion),@item.IdAsamblea,@item.IdAcuerdo);" data-toggle="tooltip" title="@(item.activarVotacion ? "Desactivar Acuerdo" :"Activar Acuerdo")" class=" tooltip-wrapper btn btn-icon btn-round @(item.activarVotacion ? "btn-outline-success" : "btn-outline-danger" )"><i class="@(item.activarVotacion ? "ti ti-unlock" : "ti ti-lock")"></i></a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    @Html.Hidden("indexNoAcuerdo", (Model.Max(x => x.NoAcuerdo) + 1))
+}
+else
+{
+    @Html.Hidden("indexNoAcuerdo", 1)
+    <h4 style="margin-top :50px; text-align:center; margin-left:25%">No existen registros para esta Asamblea</h4>
+}
+

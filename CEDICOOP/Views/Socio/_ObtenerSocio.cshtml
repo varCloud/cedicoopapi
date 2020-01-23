@@ -1,0 +1,46 @@
+﻿@model List<CEDICOOP.Models.Socio>
+@{
+
+    List<CEDICOOP.Models.Socio> lstSocio = Model;
+}
+
+<div class="col-lg-12">
+    <div class="card card-statistics">
+        <div class="card-body">
+            <div class="export-table-wrapper table-responsive">
+                <table id="tblSocios" class="table table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Telefono</th>
+                            <th>Mail</th>
+                            <th>Dirección</th>
+                            <th>#Socio CMV</th>
+                            <th>#Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in lstSocio)
+                        {
+                            <tr>
+                                <td>@item.IdSocio</td>
+                                <td>@item.Nombre&nbsp;@item.Apellidos</td>
+                                <td>@item.Telefono</td>
+                                <td>@item.Mail</td>
+                                <td>@item.Direccion</td>
+                                <td>@item.NumeroSocioCMV</td>
+                                <td>
+                                    <a href="javascript:EditarSocio(@item.IdSocio);" data-toggle="tooltip" title="Editar" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-primary"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+                                    <a href="javascript:VerExpediente(@item.IdSocio);" data-toggle="tooltip" title="Explorar" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-success"><i class="fa fa-eye"></i></a>&nbsp;&nbsp;
+                                    <a href="javascript:EliminarSocio(@item.IdSocio);" data-toggle="tooltip" title="Eliminar" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-danger"><i class="fa fa-trash-o"></i></a>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

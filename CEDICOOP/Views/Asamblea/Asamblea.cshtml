@@ -1,0 +1,161 @@
+﻿@model CEDICOOP.Models.Asamblea
+@{
+    List<CEDICOOP.Models.Asamblea> lstAsambleas = ViewBag.lstAsambleas;
+}
+@section Styles {
+
+    <link href="~/assets/css/dataTables.css" rel="stylesheet" />
+}
+
+
+<!-- begin row -->
+<div class="row" id="rowTblAsamblea">
+    @Html.Partial("_ObtenerAsambleas", lstAsambleas);
+</div>
+
+<!-- Vertical Center Modal Agregar-->
+<div class="modal fade" id="mdlAgregarAsamblea" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlAgregarAsambleaTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Ajax.BeginForm("GuardarAsamblea", "Asamblea", new AjaxOptions { HttpMethod = "POST", OnSuccess = "SuccessGuardarAsamblea" }, new { @id = "frmAsamblea" }))
+            {
+                <div class="modal-body">
+                    <div class="tab tab-border">
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade active show" id="tabDatosGenerales" role="tabpanel" aria-labelledby="home-10-tab">
+                                @*<form id="frmAsamblea">*@
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputEmail1">Nombre Asamblea</label>
+                                        @Html.HiddenFor(x => x.IdAsamblea, new { @id = "idAsamblea" })
+                                        @Html.HiddenFor(x => x.EstatusAsamblea, new { Value = "1"  })
+                                        @Html.TextBoxFor(x => x.NombreAsamblea, null, new { @class = "form-control", @id = "NombreAsamblea", placeholder = "Nombre Asamblea" })
+                                        @*<input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="emailHelp" placeholder="Nombre">*@
+
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputEmail1">Fecha Asamblea</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(x => x.FechaAsamblea, "{0: yyyy/MM/dd}", new { @class = "form-control", @id = "FechaAsamblea" })
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model.EstatusAsamblea == CEDICOOP.Models.EstatusAsamblea.Finalizada)
+                                {
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1"># Socios Convocados</label>
+                                            @Html.TextBoxFor(x => x.SociosConvocados, "", new { @class = "form-control", @id = "SociosConvocados", placeholder = "Socios Convocados" })
+                                            @Html.ValidationMessageFor(x => x.SociosConvocados, "", new { })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">#Socios que asistieron</label>
+                                            @Html.TextBoxFor(x => x.AsistenciaDeSocios, "", new { @class = "form-control", @id = "AsistenciaDeSocios", placeholder = "Socios que asistieron" })
+                                        </div>
+                                    </div>
+                                }
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="exampleInputEmail1">Direccion</label>
+                                        @Html.TextBoxFor(x => x.Direccion, null, new { @class = "form-control", @id = "Direccion", placeholder = "Direccion" })
+                                    </div>
+                                </div>
+                                <input type="reset" id="btnReseFrm" value="Reset" style="display:none" />
+
+
+                            </div>
+                            <div class="tab-pane fade" id="tabExpedientesElectronicos" role="tabpanel" aria-labelledby="portfolio-10-tab">
+                                <div class="col-md-12" id="dropZoneExpediente"></div>
+                                <div class="row" id="rowExpedientes"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnGuardarAsamblea" class="btn btn-success">Guardar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Fin Vertical Center Modal -->
+
+
+<!-- Inicio Modal Agregar Acuerdos -->
+<div class="modal fade" id="mdlAgregarAcuerdos" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlAgregarAcuerdosTitle">Agregar Acuerdos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="tab tab-border">
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade active show" id="tabDatosGenerales" role="tabpanel" aria-labelledby="home-10-tab">
+                            @*<form id="frmAsamblea">*@
+
+                            @using (Ajax.BeginForm("AgregaraAcuerdo", "Asamblea", new AjaxOptions { HttpMethod = "POST", OnSuccess = "SuccessGuardarAcuerdo" }, new { @id = "frmAcuerdo" }))
+                            {
+                                <div class="row">
+                                    <div class="form-group col-md-1">
+                                        <label id="">Acuerdo</label>
+                                        <label class="form-control" id="lblContadorAcuerdo">#</label>
+                                        <input type="hidden" class="form-control" id="noAcuerdo" name="noAcuerdo" placeholder="#">
+                                    </div>
+                                    <div class="form-group col-md-9">
+                                        <label for="exampleInputEmail1">Descripcion</label>
+                                        @Html.HiddenFor(x => x.IdAsamblea, new { @id = "IdAsambleaAcuerdo" })
+                                        <textarea class="form-control" rows="2" id="Descripcion" name="Descripcion"></textarea>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <input type="reset" id="btnReseFrm" value="Reset" style="display:none" />
+                                        <label for="exampleInputEmail1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        <button type="submit" id="btnAgregarAcuerdo" class="btn btn-success">Agregar</button>
+                                    </div>
+                                </div>
+                            }
+                            <div class="row" id="acuerdos">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="" class="btn btn-success"  data-dismiss="modal" >Aceptar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Agregar Acuerdos -->
+
+@section scripts {
+
+    @*<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+    <script src="~/assets/js/dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="~/assets/js/evtAsamblea.js"></script>
+
+}
