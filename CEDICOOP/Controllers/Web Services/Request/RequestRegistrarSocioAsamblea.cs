@@ -5,10 +5,9 @@ using System.Web;
 
 namespace CEDICOOP.Controllers.Web_Services.Request
 {
-    public class RequestValidaSocio
+    public class RequestRegistrarSocioAsamblea
     {
-
         public int IdSocio { get; set; }
-        public string Contrasena { get; set; }
+        public int IdAsamblea { get; set; }
     }
 }

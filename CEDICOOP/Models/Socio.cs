@@ -27,6 +27,8 @@ namespace CEDICOOP.Models
 
         public bool Activo { get; set; }
 
+        public string Contrasena { get; set; }
+
         public List<Expediente> Expedientes { get; set; }
 
         public List<MockFile> mocks { get; set; }

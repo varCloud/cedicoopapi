@@ -41,7 +41,8 @@ namespace CEDICOOP.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                n.Estatus = -1;
+                n.Mensaje = ex.Message + ' ' + ex.Source;
             }
             return Json(n, JsonRequestBehavior.AllowGet);
         }
@@ -60,8 +61,10 @@ namespace CEDICOOP.Controllers
                         if (file != null && file.ContentLength > 0)
                         {
                             string idAleatorio = Guid.NewGuid().ToString().Substring(0, 3) + DateTime.Now.ToString("yyyyMMdd");
-                            string pathViaticosFormatos = WebConfigurationManager.AppSettings["pathExpedientesElectronicos"].ToString();
-                            string pathGeneral = Server.MapPath("~" + pathViaticosFormatos + "/" + s.IdSocio.ToString() + "_" + s.Nombre + "/");
+                            string nombreCarpeta = WebConfigurationManager.AppSettings["pathExpedientesElectronicos"].ToString();
+
+                            string pathGeneral = Server.MapPath("~" + nombreCarpeta + "/" + s.IdSocio.ToString() + "_" + s.Nombre + "/");
+
                             if (!System.IO.Directory.Exists(pathGeneral))
                                 System.IO.Directory.CreateDirectory(pathGeneral);
 
@@ -73,7 +76,7 @@ namespace CEDICOOP.Controllers
                             e.nombreDoc = nombre;
                             e.extencionArchivo = Path.GetExtension(file.FileName);
                             e.pesoByte = file.ContentLength;
-                            e.pathExpediente = pathViaticosFormatos + s.IdSocio.ToString() + "_" + s.Nombre + "/" + nombre;
+                            e.pathExpediente = pathGeneral + s.IdSocio.ToString() + "_" + s.Nombre + "/" + nombre;
                             pathArchivos.Add(e);
                         }
                     }

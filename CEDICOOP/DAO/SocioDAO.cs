@@ -1,4 +1,5 @@
 ﻿using AccesoDatos;
+using CEDICOOP.Controllers.Web_Services.Request;
 using CEDICOOP.Models;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace CEDICOOP.DAO
     public class SocioDAO
     {
         private DBManager db = null;
-
+        #region Funciones para el Admin
         public List<Socio> ObtenerSocios(Socio socio)
         {
 
@@ -267,5 +268,103 @@ namespace CEDICOOP.DAO
             }
             return n;
         }
+        #endregion
+
+        #region  FUNCIONES PARA LA APP
+        public Notificacion<Socio> RegistratSocio(Socio socio)
+        {
+            Notificacion<Socio> notificacion = null;
+
+
+            try
+            {
+                notificacion = new Notificacion<Socio>();
+                using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
+                {
+                    db.Open();
+                    db.CreateParameters(2);
+                    db.AddParameters(0, "@contrasena", socio.Contrasena);
+                    db.AddParameters(1, "@idSocio", socio.IdSocio);
+                    db.ExecuteReader(System.Data.CommandType.StoredProcedure, "SP_REGISTRAR_SOCIO_APP");
+                    if (db.DataReader.Read())
+                    {
+                        if (Convert.ToInt32(db.DataReader["estatus"].ToString()) == 200)
+                        {
+                            Socio s = new Socio();
+                            s.IdSocio = Convert.ToInt16(db.DataReader["idSocio"]);
+                            s.Mail = db.DataReader["Mail"].ToString();
+                            s.Nombre = db.DataReader["nombre"].ToString();
+                            s.Apellidos = db.DataReader["apellidos"].ToString();
+                            s.Telefono = db.DataReader["telefono"].ToString();
+                            notificacion.Model = s;
+                            notificacion.Estatus = 200;
+                            notificacion.Mensaje = db.DataReader["mensaje"].ToString();
+                        }
+                        else {
+                            notificacion.Model = socio;
+                            notificacion.Estatus = -1;
+                            notificacion.Mensaje = db.DataReader["mensaje"].ToString();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return notificacion;
+
+        }
+
+        public Notificacion<Socio> ValidaSocio(RequestValidaSocio socio)
+        {
+            Notificacion<Socio> notificacion = null;
+            try
+            {
+                notificacion = new Notificacion<Socio>();
+                using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
+                {
+                    db.Open();
+                    db.CreateParameters(2);
+                    db.AddParameters(0, "@idSocio", socio.IdSocio);
+                    db.AddParameters(1, "@contrasena", socio.Contrasena);
+                    db.ExecuteReader(System.Data.CommandType.StoredProcedure, "SP_VALIDAR_SOCIO_APP");
+                    if (db.DataReader.Read())
+                    {
+                        Socio s = null; ;
+                        if (Convert.ToInt32(db.DataReader["estatus"].ToString()) == 200)
+                        {
+                            s = new Socio();
+                            s.IdSocio = Convert.ToInt16(db.DataReader["idSocio"]);
+                            s.Mail = db.DataReader["Mail"].ToString();
+                            s.Nombre = db.DataReader["nombre"].ToString();
+                            s.Apellidos = db.DataReader["apellidos"].ToString();
+                            s.Telefono = db.DataReader["telefono"].ToString();
+                            notificacion.Model = s;
+                            notificacion.Estatus = 200;
+                            notificacion.Mensaje = db.DataReader["mensaje"].ToString();
+                        }
+                        else
+                        {
+                            notificacion.Model = s;
+                            notificacion.Estatus = -1;
+                            notificacion.Mensaje = db.DataReader["mensaje"].ToString();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return notificacion;
+
+        }
+
+      
+        #endregion
+
     }
 }

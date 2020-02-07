@@ -75,5 +75,18 @@ namespace CEDICOOP.Controllers.Web_Services
                 throw new FaultException(ex.Message, new FaultCode("-1"), "ObtenerAcuerdos");
             }
         }
+
+        [HttpPost]
+        public Notificacion<RequestRegistrarSocioAsamblea> RegistrarSocioAsamblea(RequestRegistrarSocioAsamblea request)
+        {
+            try
+            {
+                return new AsambleaDAO().RegitrarSocioAsamblea(request);
+            }
+            catch (Exception ex)
+            {
+                throw new FaultException(ex.Message);
+            }
+        }
     }
 }

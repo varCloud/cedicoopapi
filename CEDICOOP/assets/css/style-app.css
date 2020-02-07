@@ -1,0 +1,24 @@
+﻿.validation-summary-errors li {
+    color: #cc0000 !important
+}
+
+.ErrorGeneral .field-validation-error {
+    border: 1px solid red !important;
+    width: 90% !important;
+    height: 50px;
+    padding: 13px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: firebrick;
+    margin-left: 15px;
+    background-color: rgba(255,0,0,0.3);
+    font-weight: 800;
+}
+
+.field-validation-error {
+
+    color: firebrick;
+    margin-left: 0px;
+    font-weight: 800;
+   
+}

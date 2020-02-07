@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CEDICOOP.Controllers.Web_Services.Request
+namespace CEDICOOP.Models
 {
-    public class RequestValidaSocio
+    public class Usuario
     {
-
-        public int IdSocio { get; set; }
+        public string _Usuario { get; set; }
         public string Contrasena { get; set; }
     }
 }

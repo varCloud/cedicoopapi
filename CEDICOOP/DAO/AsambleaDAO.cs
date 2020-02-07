@@ -1,4 +1,5 @@
 ﻿using AccesoDatos;
+using CEDICOOP.Controllers.Web_Services.Request;
 using CEDICOOP.Models;
 using System;
 using System.Collections.Generic;
@@ -79,9 +80,9 @@ namespace CEDICOOP.DAO
                                 a.Direccion = db.DataReader["direccion"].ToString();
                                 a.FechaAlta = Convert.ToDateTime(db.DataReader["fechaAlta"]);
                                 a.SociosConvocados = Convert.ToInt32(db.DataReader["sociosConvocados"]);
-                                a.AsistenciaDeSocios = Convert.ToInt32(string.IsNullOrEmpty(db.DataReader["asistenciaDeSocios"].ToString())? 0 : db.DataReader["asistenciaDeSocios"]);
+                                a.AsistenciaDeSocios = Convert.ToInt32(string.IsNullOrEmpty(db.DataReader["asistenciaDeSocios"].ToString()) ? 0 : db.DataReader["asistenciaDeSocios"]);
                                 a.FechaAsamblea = Convert.ToDateTime(db.DataReader["fechaAsamblea"]);
-                                a.EstatusAsamblea =(EstatusAsamblea) Convert.ToInt32(db.DataReader["idEstatusAsamblea"]);
+                                a.EstatusAsamblea = (EstatusAsamblea)Convert.ToInt32(db.DataReader["idEstatusAsamblea"]);
                                 a.TotalAcuerdos = Convert.ToInt32(db.DataReader["acuerdos"]);
                                 lstAsamblea.Add(a);
 
@@ -145,14 +146,12 @@ namespace CEDICOOP.DAO
                     db.ExecuteReader(System.Data.CommandType.StoredProcedure, "SP_ACTIVAR_ASAMBLEA");
                     if (db.DataReader.Read())
                     {
-                        if (Convert.ToInt32(db.DataReader["estatus"].ToString()) == 200)
-                        {
-                            n = new Notificacion<Object>();
-                            n.Estatus = Convert.ToInt32(db.DataReader["estatus"]);
-                            n.Mensaje = db.DataReader["mensaje"].ToString();
-                            n.TipoAlerta = "success";
-                            n.Model = idAsamblea;
-                        }
+                        n = new Notificacion<Object>();
+                        n.Estatus = Convert.ToInt32(db.DataReader["estatus"]);
+                        n.Mensaje = db.DataReader["mensaje"].ToString();
+                        n.TipoAlerta = "success";
+                        n.Model = idAsamblea;
+
                     }
                 }
             }
@@ -163,5 +162,38 @@ namespace CEDICOOP.DAO
 
             return n;
         }
+
+        #region Funciones para la APP
+        public Notificacion<RequestRegistrarSocioAsamblea> RegitrarSocioAsamblea(RequestRegistrarSocioAsamblea request)
+        {
+            Notificacion<RequestRegistrarSocioAsamblea> notificacion = null;
+            try
+            {
+                notificacion = new Notificacion<RequestRegistrarSocioAsamblea>();
+                using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
+                {
+                    db.Open();
+                    db.CreateParameters(2);
+                    db.AddParameters(0, "@idSocio", request.IdSocio);
+                    db.AddParameters(1, "@idAsamblea", request.IdAsamblea);
+                    db.ExecuteReader(System.Data.CommandType.StoredProcedure, "SP_REGISTRAR_SOCIO_EN_ASAMBLEA");
+                    if (db.DataReader.Read())
+                    {
+                        Socio s = null; ;
+                        notificacion.Model = request;
+                        notificacion.Estatus = Convert.ToInt32(db.DataReader["estatus"].ToString());
+                        notificacion.Mensaje = db.DataReader["mensaje"].ToString();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return notificacion;
+
+        }
     }
+    #endregion
 }

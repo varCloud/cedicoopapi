@@ -9,7 +9,7 @@
 
 <!-- Mirrored from themes.potenzaglobalsolutions.com/html/mentor-bootstrap-4-admin-dashboard-template/auth-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Feb 2019 19:47:25 GMT -->
 <head>
-    <title>Mentor - Bootstrap 4 Admin Dashboard Template</title>
+    <title>Administrador Cedicoop</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="Admin template that can be used to build dashboards for CRM, CMS, etc." />
@@ -19,10 +19,12 @@
     <link rel="shortcut icon" href="assets/img/favicon.ico">
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <!-- plugin stylesheets -->
-    <link rel="stylesheet" type="text/css" href="assets/css/vendors.css" />
-    <!-- app style -->
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+
+    @Styles.Render("~/assets/css/vendors.css")
+    @Styles.Render("~/assets/css/style.css")
+    @Styles.Render("~/assets/css/style-app.css")
+
+
 </head>
 
 <body class="bg-white">
@@ -48,20 +50,30 @@
                                 <div class="d-flex align-items-center h-100-vh">
                                     <div class="login p-50">
                                         <h1 class="mb-2">Administrador</h1>
-                                        <p>Centro de desarrollo cooperativo.</p>
+                                        <p>Centro de Desarrollo Cooperativo.</p>
                                         @using (Html.BeginForm("ValidaNumero", "Login", FormMethod.Post/*, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }*/, new { @id = "frmLogin", @class = "mt-3 mt-sm-5" }))
                                         {
+
+                                            <div class="row"  >
+                                                <div class="col-12 ErrorGeneral" >
+                                                    @Html.ValidationMessage("ErrorGeneral")
+                                                </div>
+                                            </div>
+
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <label class="control-label">Usuario*</label>
+                                                        <label class="control-label">Usuario</label>
                                                         @Html.TextBoxFor(x => x.Usuario, null, new { @class = "form-control", placeholder = "Usuario" })
+                                                        @Html.ValidationMessageFor(x => x.Usuario)
                                                     </div>
                                                 </div>
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <label class="control-label">Usuario*</label>
-                                                        @Html.TextBoxFor(x => x.Contraseña, null, new { @class = "form-control", placeholder = "Contraseña", type = "password" })
+                                                        <label class="control-label">Contraseña</label>
+                                                        @Html.TextBoxFor(x => x.Contrasena, null, new { @class = "form-control", placeholder = "Contraseña", type = "password" })
+                                                        @Html.ValidationMessageFor(x => x.Contrasena)
+
                                                     </div>
                                                 </div>
                                                 <div class="col-12 mt-3">
@@ -70,12 +82,12 @@
                                             </div>
                                         }
                                     </div>
-                                </div>
+                                        </div>
                             </div>
                             <div class="col-sm-6 col-xxl-9 col-lg-7 bg-gradient o-hidden order-1 order-sm-2">
                                 <div class="row align-items-center h-100">
                                     <div class="col-7 mx-auto ">
-                                        <img class="img-fluid" src="assets/img/bg/login.svg" alt="">
+                                        <img class="img-fluid" src="@Url.Content("~/assets/img/bg/login.svg")" alt="">
                                     </div>
                                 </div>
                             </div>
@@ -86,14 +98,13 @@
             <!--end login contant-->
         </div>
         <!-- end app-wrap -->
-        </div>
-        <!-- end app -->
-        <!-- plugins -->
-        <script src="assets/js/vendors.js"></script>
-
-        <!-- custom app -->
-        <script src="assets/js/app.js"></script>
-    </body>
+    </div>
+    <!-- end app -->
+    <!-- plugins -->
+    @Scripts.Render("~/assets/js/vendors.js")
+    @Scripts.Render("~/assets/js/app.js")
+ 
+</body>
 
 
     <!-- Mirrored from themes.potenzaglobalsolutions.com/html/mentor-bootstrap-4-admin-dashboard-template/auth-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Feb 2019 19:47:26 GMT -->

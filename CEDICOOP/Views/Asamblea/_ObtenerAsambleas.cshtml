@@ -25,14 +25,22 @@
                                 <td class="details-control"><a href="#" data-toggle="tooltip" title="Ver Acuerdos" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-info"><i class="fa fa-search-plus"></i></a></td>
                                 <td class="id-asamblea">@item.IdAsamblea</td>
                                 <td>@item.NombreAsamblea</td>
-                                <td>@item.TotalAcuerdos</td>
+                                <td><b class="text-danger">@(item.TotalAcuerdos == 0 ? "Sin Acuerdos" : item.TotalAcuerdos.ToString())</b></td>
                                 <td>@item.Direccion</td>
                                 <td>@item.FechaAsamblea.ToShortDateString()</td>
                                 <td>@item.EstatusAsamblea</td>
                                 <td>
                                     <a href="javascript:EditarAsamblea(@item.IdAsamblea,@Convert.ToInt16(CEDICOOP.Models.AccionAcuerdo.Agregar));" data-toggle="tooltip" title="Editar Asamblea" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-primary"><i class="fa fa-edit"></i></a>&nbsp;
                                     <a href="javascript:EliminarAsamblea(@item.IdAsamblea);" data-toggle="tooltip" title="Eliminar Asamblea" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-dark"><i class="ti ti-close"></i></a>
-                                    <a href="javascript:ActivarAsamblea(@item.IdAsamblea);" data-toggle="tooltip" title="Activar Asamblea" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-info"><i class="ti ti-check"></i></a>
+                                    @if (item.EstatusAsamblea == CEDICOOP.Models.EstatusAsamblea.Pendiente)
+                                    {
+                                        <a href="javascript:ActivarAsamblea(@item.IdAsamblea);" data-toggle="tooltip" title="Activar Asamblea" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-info"><i class="fa fa-unlock"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="javascript:FinalizarAsamblea(@item.IdAsamblea);" data-toggle="tooltip" title="Finalizar Asamblea" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-danger"><i class="ti ti-check"></i></a>
+
+                                    }
                                     <a href="javascript:AgregarActivarAcuerdos(@item.IdAsamblea,@Convert.ToInt16(CEDICOOP.Models.AccionAcuerdo.Agregar));" data-toggle="tooltip" title="Agregar Acuerdos" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-success"><i class="fa fa-plus"></i></a>
                                     <a href="javascript:AgregarActivarAcuerdos(@item.IdAsamblea,@Convert.ToInt16(@CEDICOOP.Models.AccionAcuerdo.Activar));" data-toggle="tooltip" title="Activar Acuerdos" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-warning"><i class="fa fa-check-square-o"></i></a>
                                 </td>

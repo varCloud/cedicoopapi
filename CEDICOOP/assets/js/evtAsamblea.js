@@ -7,14 +7,14 @@
 function SuccessEliminaAcuerdo(data) {
     console.log(data);
     notificacion(data.TipoAlerta, data.Mensaje);
-    PintarAcuerdos(data.Model.IdAsamblea);
+    PintarAcuerdos(data.Model.IdAsamblea, "Agregar");
 }
 
 function SuccessGuardarAcuerdo(data) {
     console.log(data);
     $("#Descripcion").val('');
     notificacion(data.TipoAlerta, data.Mensaje);
-    PintarAcuerdos(data.Model.IdAsamblea);
+    PintarAcuerdos(data.Model.IdAsamblea,"Agregar");
 }
 
 function iniScroll() {

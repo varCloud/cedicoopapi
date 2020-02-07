@@ -11,26 +11,14 @@ using System.Web.Http;
 
 namespace CEDICOOP.Controllers
 {
-    public class wsSocioController : ApiController
+    public class WsSocioController : ApiController
     {
         [HttpPost]
-        public Notificacion<Socio> validaSocio(RequestValidaSocio r) {
-            Notificacion<Socio> notificacion = null;
+        public Notificacion<Socio> ValidaSocio(RequestValidaSocio r) {
             try
             {
-                notificacion = new Notificacion<Socio>();
-                List<Socio> lst =  new SocioDAO().ObtenerSocios(new Socio() { IdSocio = Convert.ToInt32(r.NoSocio) });
-                if (lst.Count > 0)
-                {
-                    notificacion.Model = lst.FirstOrDefault();
-                    notificacion.Estatus = 200;
-                    notificacion.Mensaje = "Bienvenido";
-                }
-                else {
-                    notificacion.Estatus = -1;
-                    notificacion.Mensaje = "El socio no existe";
-                }
-                return notificacion;
+
+                return new SocioDAO().ValidaSocio(r);
             }
             catch (Exception ex)
             {
@@ -45,7 +33,6 @@ namespace CEDICOOP.Controllers
         }
 
         [HttpPost]
-
         public Notificacion<List<Asamblea>> ObtenerAsambleas(int idAsamblea)
         {
             try
@@ -69,5 +56,19 @@ namespace CEDICOOP.Controllers
                 throw new FaultException(ex.Message, new FaultCode("-1"), "ObtenerAsambleas");
             }
         }
+
+        [HttpPost]
+        public Notificacion<Socio> RegistrarSocio(Socio socio) {
+            try
+            {
+                return new SocioDAO().RegistratSocio(socio);
+            }
+            catch (Exception ex)
+            {
+                throw new FaultException(ex.Message);
+            }
+        }
+
+
     }
 }
