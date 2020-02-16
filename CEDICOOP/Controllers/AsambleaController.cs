@@ -161,5 +161,19 @@ namespace CEDICOOP.Controllers
                 throw new FaultException(ex.Message);
             }
         }
+        [HttpPost]
+        public JsonResult FinalizarAsamblea(int idAsamblea)
+        {
+            try
+            {
+                Notificacion<Object> n = new AsambleaDAO().FinalizarAsamblea(idAsamblea);
+                return new JsonResult() { Data = n, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                throw new FaultException(ex.Message);
+            }
+        }
+
     }
 }

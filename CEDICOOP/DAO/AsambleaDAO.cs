@@ -163,6 +163,36 @@ namespace CEDICOOP.DAO
             return n;
         }
 
+        public Notificacion<Object> FinalizarAsamblea(Int64 idAsamblea)
+        {
+            Notificacion<Object> n = null;
+            try
+            {
+                using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
+                {
+                    db.Open();
+                    db.CreateParameters(1);
+                    db.AddParameters(0, "@idAsamblea", idAsamblea);
+                    db.ExecuteReader(System.Data.CommandType.StoredProcedure, "SP_FINALIZAR_ASAMBLEA");
+                    if (db.DataReader.Read())
+                    {
+                        n = new Notificacion<Object>();
+                        n.Estatus = Convert.ToInt32(db.DataReader["estatus"]);
+                        n.Mensaje = db.DataReader["mensaje"].ToString();
+                        n.TipoAlerta = "success";
+                        n.Model = idAsamblea;
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return n;
+        }
+
         #region Funciones para la APP
         public Notificacion<RequestRegistrarSocioAsamblea> RegitrarSocioAsamblea(RequestRegistrarSocioAsamblea request)
         {

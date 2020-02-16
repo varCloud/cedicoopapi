@@ -257,6 +257,48 @@ function ActivarAsamblea(idAsamblea) {
                 beforeSend: function (xhr) {
                 },
                 success: function (datos) {
+                    console.log(datos);
+                    swal('', datos.Mensaje, (datos.Estatus == 200 ? 'success' : 'error'));
+                    PintarAsambleas();
+                },
+                error: function (xhr, status) {
+                    console.log('Disculpe, existió un problema');
+                    console.log(xhr);
+                    console.log(status);
+                }
+            });
+
+        }
+    })
+
+}
+
+function FinalizarAsamblea(idAsamblea) {
+    swal({
+        title: 'Estas seguro que deseas Finalizar la Asamblea.',
+        text: "Los socios ya No podran emitir votas a  los acuerdos",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Finalizar!',
+        cancelButtonText: 'cancelar!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: true,
+        reverseButtons: true
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: rootUrl("/Asamblea/FinalizarAsamblea"),
+                data: { idAsamblea: idAsamblea },
+                method: 'post',
+                dataType: 'json',
+                async: false,
+                beforeSend: function (xhr) {
+                },
+                success: function (datos) {
+                    console.log(datos);
                     swal('', datos.Mensaje, (datos.Estatus == 200 ? 'success' : 'error'));
                     PintarAsambleas();
                 },
@@ -359,7 +401,6 @@ function ActivarAcuerdo(activarVotacion, idAsamblea,idAcuerdo, ) {
         }
     });
 }
-
 
 function GuardarEditarAcuerdo(descripcion, idAsamblea, idAcuerdo) {
 
