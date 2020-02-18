@@ -242,6 +242,7 @@
     <Content Include="assets\img\flags\in.png" />
     <Content Include="assets\img\flags\lk.png" />
     <Content Include="assets\img\flags\nz.png" />
+    <Content Include="assets\img\icono.png" />
     <Content Include="assets\img\loader\loader.svg" />
     <Content Include="assets\img\logo-icon.png" />
     <Content Include="assets\img\logo-light.png" />
