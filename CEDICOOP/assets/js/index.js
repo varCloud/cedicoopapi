@@ -30,9 +30,7 @@ function notificacion(tipoNotificacion , mensaje) {
           break;
 
     }
-    
-
-
+   
 }
 
 $(document).ready(function () {

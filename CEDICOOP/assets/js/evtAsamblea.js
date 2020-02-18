@@ -359,7 +359,9 @@ function PintarAsambleas() {
         beforeSend: function (xhr) {
         },
         success: function (data) {
+            table.destroy();
             $('#rowTblAsamblea').html(data);
+            InitDataTable();
             iniScroll();
             initTooltip();
         },

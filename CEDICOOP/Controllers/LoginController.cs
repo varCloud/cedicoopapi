@@ -44,7 +44,7 @@ namespace CEDICOOP.Controllers
             }
             catch (Exception ex)
             {
-                throw new FaultException(ex.Message);
+                return View("Error", new HandleErrorInfo(ex, "Login", "Login"));
             }
             return View("Login");
         }

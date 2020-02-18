@@ -1,0 +1,12 @@
+FTP Deploy Info
+IP del servidor	ftp.site4now.net 
+FTP Path / Folder Name	apicoo.dsimorelia.com
+usuario : victor
+contraseña :  Abcde12345
+
+-----------------------------------------
+
+Server=sql5032.site4now.net;
+Database=DB_A0966E_Cedicoop;
+User Id=DB_A0966E_Cedicoop_admin;
+Password=Abcde12345;
