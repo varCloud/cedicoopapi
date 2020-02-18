@@ -48,14 +48,16 @@
                         <div class="row no-gutters">
                             <div class="col-sm-6 col-lg-5 col-xxl-3  align-self-center order-2 order-sm-1">
                                 <div class="d-flex align-items-center h-100-vh">
+                                    
                                     <div class="login p-50">
+                                        <img src="~/assets/img/logo.png" style="" class="img-fluid logo-desktop" alt="logo" />
                                         <h1 class="mb-2">Administrador</h1>
-                                        <p>Centro de Desarrollo Cooperativo.</p>
+                                        <p></p>
                                         @using (Html.BeginForm("ValidaNumero", "Login", FormMethod.Post/*, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }*/, new { @id = "frmLogin", @class = "mt-3 mt-sm-5" }))
                                         {
 
-                                            <div class="row"  >
-                                                <div class="col-12 ErrorGeneral" >
+                                            <div class="row">
+                                                <div class="col-12 ErrorGeneral">
                                                     @Html.ValidationMessage("ErrorGeneral")
                                                 </div>
                                             </div>
@@ -107,5 +109,5 @@
 </body>
 
 
-    <!-- Mirrored from themes.potenzaglobalsolutions.com/html/mentor-bootstrap-4-admin-dashboard-template/auth-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Feb 2019 19:47:26 GMT -->
-</html>>
+   
+</html>

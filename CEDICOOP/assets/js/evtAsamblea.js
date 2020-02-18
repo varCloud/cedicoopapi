@@ -131,13 +131,13 @@ function verAcuerdos(idAsamblea ,row) {
         },
         success: function (datos) {
             if (datos.length > 0) {
-                data = '<table class="table mb-0" style="width:100% !important ; color : #a6a9b7">';
+                data = ' <div class="card-body"><ul class="activity">';
                 $(datos).each(function (index, item) {
-                    data += '<tr>';
-                    data += '<td>' + item.NoAcuerdo + '.- ' + item.Descripcion + '</td>';
-                    data += '</tr>';
+                    data += '<li class="activity-item primary"><div class="activity-info">';
+                    data += '<h5 class="mb-0">' + item.Descripcion + '</h5><span>Votos a favor: <b class="text-success">' + item.votosTotalesFavor + '</b> Votos en contra: <b class="text-danger">' + item.votosTotalesEnContra +'</b></span>';
+                    data += '</div></li>';
                 });
-                data += '</table>';
+                data += '</ul></div>';
                 console.log(data);
             }
             row.child(data).show();

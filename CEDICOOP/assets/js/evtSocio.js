@@ -11,6 +11,7 @@ function PintarTabla() {
         beforeSend: function (xhr) {
         },
         success: function (data) {
+            table.destroy();
             $('#rowTblSocio').html(data);
             InitDataTable();
         },
@@ -215,7 +216,6 @@ function InitDrop() {
             console.log(data);
             if (data.Estatus == 200) {
                 swal("Notificación", data.Mensaje, data.TipoAlerta);
-                table.destroy();
                 PintarTabla();
             }
             $('#verticalCenter').modal('hide');

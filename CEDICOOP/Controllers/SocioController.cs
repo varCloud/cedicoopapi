@@ -43,6 +43,8 @@ namespace CEDICOOP.Controllers
             {
                 n.Estatus = -1;
                 n.Mensaje = ex.Message + ' ' + ex.Source;
+                return View("Error", new HandleErrorInfo(ex, "Socio", "Socio"));
+
             }
             return Json(n, JsonRequestBehavior.AllowGet);
         }
@@ -62,7 +64,8 @@ namespace CEDICOOP.Controllers
                         {
                             string idAleatorio = Guid.NewGuid().ToString().Substring(0, 3) + DateTime.Now.ToString("yyyyMMdd");
                             string nombreCarpeta = WebConfigurationManager.AppSettings["pathExpedientesElectronicos"].ToString();
-
+                            
+                            
                             string pathGeneral = Server.MapPath("~" + nombreCarpeta + "/" + s.IdSocio.ToString() + "_" + s.Nombre + "/");
 
                             if (!System.IO.Directory.Exists(pathGeneral))
