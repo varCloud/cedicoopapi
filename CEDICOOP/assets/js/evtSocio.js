@@ -92,10 +92,11 @@ function InitDataTable() {
             },
         },
         "dom": 'Bfrtip',
+        buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         buttons: [
             {
                 extend: 'copy',
-                text: '<i class="fa fa-copy"></i>',
+                text: '<i class="fa fa-copy" style="font-size:20px"></i>',
                 className: 'btn btn-icon btn-round btn-outline-warning',
                 titleAttr: 'Copiar',
                 exportOptions: {
@@ -103,18 +104,24 @@ function InitDataTable() {
                 },
             },
             {
-                extend: 'pdf',
-                text: '<i class="fa fa-file-pdf-o"></i>',
+                extend: 'pdfHtml5',
+                text: '<i class="fa fa-file-pdf-o"  style="font-size:20px"></i>',
                 className: 'btn btn-icon btn-round btn-outline-info',
-                download: 'open',
                 titleAttr: 'Exportar a PDF',
+                title: "Socios Cedicoop",
+                customize: function (doc) {
+                    doc.defaultStyle.fontSize = 8; //2, 3, 4,etc
+                    doc.styles.tableHeader.fontSize = 10; //2, 3, 4, etc
+                    doc.defaultStyle.alignment = 'center';
+                    doc.content[1].table.widths = ['10%','20%', '20%', '20%', '20%','10%' ];
+                },
                 exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5]
                 },
             },
             {
                 extend: 'excel',
-                text: '<i class="fa fa-file-excel-o"></i>',
+                text: '<i class="fa fa-file-excel-o"  style="font-size:20px"></i>',
                 className: 'btn btn-icon btn-round btn-outline-success',
                 titleAttr: 'Exportar a Excel',
                 exportOptions: {

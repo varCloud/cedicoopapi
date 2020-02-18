@@ -66,7 +66,7 @@ namespace CEDICOOP.Controllers
                             string nombreCarpeta = WebConfigurationManager.AppSettings["pathExpedientesElectronicos"].ToString();
                             
                             
-                            string pathGeneral = Server.MapPath("~" + nombreCarpeta + "/" + s.IdSocio.ToString() + "_" + s.Nombre + "/");
+                            string pathGeneral = Server.MapPath("~" + nombreCarpeta + "/" + s.IdSocio.ToString());
 
                             if (!System.IO.Directory.Exists(pathGeneral))
                                 System.IO.Directory.CreateDirectory(pathGeneral);
@@ -79,7 +79,7 @@ namespace CEDICOOP.Controllers
                             e.nombreDoc = nombre;
                             e.extencionArchivo = Path.GetExtension(file.FileName);
                             e.pesoByte = file.ContentLength;
-                            e.pathExpediente = pathGeneral + s.IdSocio.ToString() + "_" + s.Nombre + "/" + nombre;
+                            e.pathExpediente = nombreCarpeta +"/"+ s.IdSocio.ToString() +"/" + nombre;
                             pathArchivos.Add(e);
                         }
                     }
