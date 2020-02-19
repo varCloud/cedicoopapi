@@ -77,11 +77,11 @@ namespace CEDICOOP.Controllers.Web_Services
         }
 
         [HttpPost]
-        public Notificacion<RequestRegistrarSocioAsamblea> RegistrarSocioAsamblea(RequestRegistrarSocioAsamblea request)
+        public Notificacion<RequestRegistrarSocioAsamblea> RegitrarSocioAsambleaDesdeAPP(RequestRegistrarSocioAsamblea request)
         {
             try
             {
-                return new AsambleaDAO().RegitrarSocioAsamblea(request);
+                return new AsambleaDAO().RegitrarSocioAsambleaDesdeAPP(request);
             }
             catch (Exception ex)
             {

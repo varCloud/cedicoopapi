@@ -36,7 +36,7 @@
                                     <div class="form-group col-md-6">
                                         <label for="exampleInputEmail1">Nombre Asamblea</label>
                                         @Html.HiddenFor(x => x.IdAsamblea, new { @id = "idAsamblea" })
-                                        @Html.HiddenFor(x => x.EstatusAsamblea, new { Value = "1"  })
+                                        @Html.HiddenFor(x => x.EstatusAsamblea, new { Value = "1" })
                                         @Html.TextBoxFor(x => x.NombreAsamblea, null, new { @class = "form-control", @id = "NombreAsamblea", placeholder = "Nombre Asamblea" })
                                         @*<input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="emailHelp" placeholder="Nombre">*@
 
@@ -88,9 +88,36 @@
         </div>
     </div>
 </div>
-<!-- Fin Vertical Center Modal -->
 
 
+
+<!-- Inicio  Modal Asignar Socio a Asamblea -->
+
+<div class="modal fade" id="mdlAsignarSociosAsamblea" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlAgregarAcuerdosTitle">Agregar Socios a Asamblea</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tab tab-border">
+                    <div class="tab-content">
+                        <div class="tab-pane fade active show" id="tabSociosAsambleas" role="tabpanel" aria-labelledby="home-10-tab">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Fin Modal Asignar Socio a Asamblea -->
 <!-- Inicio Modal Agregar Acuerdos -->
 <div class="modal fade" id="mdlAgregarAcuerdos" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -136,13 +163,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" id="" class="btn btn-success"  data-dismiss="modal" >Aceptar</button>
+                <button type="submit" id="" class="btn btn-success" data-dismiss="modal">Aceptar</button>
             </div>
 
         </div>
     </div>
 </div>
-<!-- Fin Modal Agregar Acuerdos -->
+<!-- Fin  Modal Agregar Acuerdos  -->
 
 @section scripts {
 

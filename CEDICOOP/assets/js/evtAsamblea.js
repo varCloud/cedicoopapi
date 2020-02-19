@@ -159,6 +159,36 @@ function InitBtnAgregar() {
     });
 }
 
+function AsignarSociosAsamblea(idAsamblea) {
+    
+    console.log("idAsamblea: " + idAsamblea);
+    $.ajax({
+        url: rootUrl("/Asamblea/_ObtenerSociosEnAsamblea"),
+        method: 'post',
+        dataType: 'html',
+        async: false,
+        beforeSend: function (xhr) {
+        },
+        success: function (data) {
+            $('#tabSociosAsambleas').html(data);
+            $('#mdlAsignarSociosAsamblea').modal({ backdrop: 'static', keyboard: false, show: true });
+            $('.checkSocio').click(function () {
+                console.log($(this).attr("idsocio"))
+                if ($(this).prop("checked") == true) {
+                    
+                }
+                else if ($(this).prop("checked") == false) {
+                    
+                }
+            });
+        },
+        error: function (xhr, status) {
+            console.log('Disculpe, existió un problema');
+            console.log(xhr);
+            console.log(status);
+        }
+    });
+}
 function EditarAsamblea(idAsamblea) {
 
     $.ajax({

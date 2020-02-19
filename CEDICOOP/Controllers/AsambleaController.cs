@@ -1,4 +1,5 @@
-﻿using CEDICOOP.DAO;
+﻿using CEDICOOP.Controllers.Web_Services.Request;
+using CEDICOOP.DAO;
 using CEDICOOP.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,20 @@ namespace CEDICOOP.Controllers
         {
             this.ViewBag.lstAsambleas = new AsambleaDAO().ObtenerAsambleas(0,0);
             return View(new Asamblea() { FechaAsamblea = DateTime.Now });
+        }
+
+
+        public ActionResult _ObtenerSociosEnAsamblea()
+        {
+            try
+            {
+                List<Models.Socio> Lstsocio = new SocioDAO().ObtenerSocios(new Models.Socio() { IdSocio = 0 });
+                return PartialView("_ObtenerSociosEnAsamblea", Lstsocio);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public ActionResult _ObtenerAsambleas()
@@ -167,6 +182,20 @@ namespace CEDICOOP.Controllers
             try
             {
                 Notificacion<Object> n = new AsambleaDAO().FinalizarAsamblea(idAsamblea);
+                return new JsonResult() { Data = n, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception ex)
+            {
+                throw new FaultException(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult RegitrarSocioAsamblea(RequestRegistrarSocioAsamblea request)
+        {
+            try
+            {
+                Notificacion<Object> n = new AsambleaDAO().RegitrarSocioAsamblea(request);
                 return new JsonResult() { Data = n, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex)

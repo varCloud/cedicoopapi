@@ -22,6 +22,8 @@ namespace CEDICOOP.Controllers
             return View(new Socio());
         }
 
+     
+
         [HttpPost]
         public ActionResult AgregarSocio(Socio socio_)
         {

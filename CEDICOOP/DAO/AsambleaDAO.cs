@@ -193,13 +193,12 @@ namespace CEDICOOP.DAO
             return n;
         }
 
-        #region Funciones para la APP
-        public Notificacion<RequestRegistrarSocioAsamblea> RegitrarSocioAsamblea(RequestRegistrarSocioAsamblea request)
+        public Notificacion<Object> RegitrarSocioAsamblea(RequestRegistrarSocioAsamblea request)
         {
-            Notificacion<RequestRegistrarSocioAsamblea> notificacion = null;
+            Notificacion<Object> notificacion = null;
             try
             {
-                notificacion = new Notificacion<RequestRegistrarSocioAsamblea>();
+                notificacion = new Notificacion<Object>();
                 using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
                 {
                     db.Open();
@@ -222,7 +221,39 @@ namespace CEDICOOP.DAO
                 throw ex;
             }
             return notificacion;
+        }
 
+        #region Funciones para la APP
+
+
+        public Notificacion<RequestRegistrarSocioAsamblea> RegitrarSocioAsambleaDesdeAPP(RequestRegistrarSocioAsamblea request)
+        {
+            Notificacion<RequestRegistrarSocioAsamblea> notificacion = null;
+            try
+            {
+                notificacion = new Notificacion<RequestRegistrarSocioAsamblea>();
+                using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
+                {
+                    db.Open();
+                    db.CreateParameters(2);
+                    db.AddParameters(0, "@idSocio", request.IdSocio);
+                    db.AddParameters(1, "@idAsamblea", request.IdAsamblea);
+                    db.ExecuteReader(System.Data.CommandType.StoredProcedure, "SP_REGISTRAR_SOCIO_EN_ASAMBLEA_DESDE_APP");
+                    if (db.DataReader.Read())
+                    {
+                        Socio s = null; ;
+                        notificacion.Model = request;
+                        notificacion.Estatus = Convert.ToInt32(db.DataReader["estatus"].ToString());
+                        notificacion.Mensaje = db.DataReader["mensaje"].ToString();
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return notificacion;
         }
     }
     #endregion

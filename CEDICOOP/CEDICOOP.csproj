@@ -372,6 +372,7 @@
     <Content Include="Views\Asamblea\Asamblea.cshtml" />
     <Content Include="Views\Asamblea\_ObtenerAsambleas.cshtml" />
     <Content Include="Views\Asamblea\_ObtenerAcuerdos.cshtml" />
+    <Content Include="Views\Asamblea\_ObtenerSociosEnAsamblea.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
