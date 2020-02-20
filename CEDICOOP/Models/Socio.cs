@@ -32,5 +32,7 @@ namespace CEDICOOP.Models
         public List<Expediente> Expedientes { get; set; }
 
         public List<MockFile> mocks { get; set; }
+
+        public int Asistencia { get; set; }
     }
 }

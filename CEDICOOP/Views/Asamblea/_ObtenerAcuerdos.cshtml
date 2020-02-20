@@ -28,7 +28,11 @@
                         }
                         else
                         {
-                            <a href="javascript:ActivarAcuerdo(@Convert.ToInt16(item.activarVotacion),@item.IdAsamblea,@item.IdAcuerdo);" data-toggle="tooltip" title="@(item.activarVotacion ? "Desactivar Acuerdo" :"Activar Acuerdo")" class=" tooltip-wrapper btn btn-icon btn-round @(item.activarVotacion ? "btn-outline-success" : "btn-outline-danger" )"><i class="@(item.activarVotacion ? "ti ti-unlock" : "ti ti-lock")"></i></a>
+                            <div class="col-md-3">
+                                <span class="col-md-12">Votos a favor: <b class="text-success"> @item.votosTotalesFavor </b></span>
+                                <span class="">Votos en contra: <b class="text-danger"> @item.votosTotalesEnContra </b></span>
+                            </div>
+                          <a href="javascript:ActivarAcuerdo(@Convert.ToInt16(item.activarVotacion),@item.IdAsamblea,@item.IdAcuerdo);" data-toggle="tooltip" title="@(item.activarVotacion ? "Desactivar Acuerdo" :"Activar Acuerdo")" class=" tooltip-wrapper btn btn-icon btn-round @(item.activarVotacion ? "btn-outline-success" : "btn-outline-danger" )"><i class="@(item.activarVotacion ? "ti ti-unlock" : "ti ti-lock")"></i></a>
                         }
                     </div>
                 </div>

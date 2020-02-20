@@ -137,10 +137,10 @@ namespace CEDICOOP.DAO
                                 a.IdAsamblea = Convert.ToInt32(db.DataReader["idAsamblea"].ToString());
                                 a.IdAcuerdo = Convert.ToInt32(db.DataReader["idAcuerdo"].ToString());
                                 a.NoAcuerdo = Convert.ToInt32(db.DataReader["noAcuerdo"].ToString());
-                                a.votosTotalesFavor = Convert.ToInt32(string.IsNullOrEmpty(db.DataReader["votosAFavor"].ToString()) ? 0 : db.DataReader["votosAFavor"]);
-                                a.votosTotalesAnulados = Convert.ToInt32(string.IsNullOrEmpty(db.DataReader["votosAnulados"].ToString()) ? 0 : db.DataReader["votosAnulados"]);
+                                a.votosTotalesFavor = Convert.ToInt32(string.IsNullOrEmpty(db.DataReader["TotalAfavor"].ToString()) ? 0 : db.DataReader["TotalAfavor"]);
+                                //a.votosTotalesAnulados = Convert.ToInt32(string.IsNullOrEmpty(db.DataReader["votosAnulados"].ToString()) ? 0 : db.DataReader["votosAnulados"]);
                                 a.Descripcion = db.DataReader["descripcion"].ToString();
-                                a.votosTotalesEnContra = Convert.ToInt32(string.IsNullOrEmpty(db.DataReader["votosEnContra"].ToString()) ? 0 : db.DataReader["votosEnContra"]);
+                                a.votosTotalesEnContra = Convert.ToInt32(string.IsNullOrEmpty(db.DataReader["TotalEncontra"].ToString()) ? 0 : db.DataReader["TotalEncontra"]);
                                 //a.aFavor =   (db.DataReader["aFavor"] == DBNull.Value ? false : Convert.ToBoolean (db.DataReader["aFavor"]));
                                 //a.enContra = (db.DataReader["enContra"] == DBNull.Value ? false :  Convert.ToBoolean(db.DataReader["enContra"]));
                                 a.FechaAlta = Convert.ToDateTime(db.DataReader["fechaAlta"]);

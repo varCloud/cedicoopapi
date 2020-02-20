@@ -9,5 +9,7 @@ namespace CEDICOOP.Controllers.Web_Services.Request
     {
         public int IdSocio { get; set; }
         public int IdAsamblea { get; set; }
+
+        public int Asistencia { get; set; }
     }
 }

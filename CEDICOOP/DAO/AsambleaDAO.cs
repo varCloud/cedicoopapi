@@ -53,7 +53,6 @@ namespace CEDICOOP.DAO
 
         }
 
-
         public List<Asamblea> ObtenerAsambleas(int idAsamblea, EstatusAsamblea EstatusAsamblea)
         {
             List<Asamblea> lstAsamblea = null;
@@ -202,9 +201,10 @@ namespace CEDICOOP.DAO
                 using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
                 {
                     db.Open();
-                    db.CreateParameters(2);
+                    db.CreateParameters(3);
                     db.AddParameters(0, "@idSocio", request.IdSocio);
                     db.AddParameters(1, "@idAsamblea", request.IdAsamblea);
+                    db.AddParameters(2, "@Asistencia", request.Asistencia);
                     db.ExecuteReader(System.Data.CommandType.StoredProcedure, "SP_REGISTRAR_SOCIO_EN_ASAMBLEA");
                     if (db.DataReader.Read())
                     {
@@ -223,6 +223,50 @@ namespace CEDICOOP.DAO
             return notificacion;
         }
 
+
+        public List<Socio> ObtenerSociosEnAsamblea(int idAsamblea)
+        {
+
+            List<Socio> lstSocios = new List<Socio>();
+            try
+            {
+                using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
+                {
+                    db.Open();
+                    db.CreateParameters(1);
+                    db.AddParameters(0, "@idAsamblea", idAsamblea);
+                    db.ExecuteReader(System.Data.CommandType.StoredProcedure, "[SP_OBTENER_SOCIOS_EN_ASAMBLEA]");
+                    while (db.DataReader.Read())
+                    {
+                        if (Convert.ToInt32(db.DataReader["estatus"].ToString()) == 200)
+                        {
+                            if (db.DataReader.NextResult())
+                            {
+                                while (db.DataReader.Read())
+                                {
+                                    Socio s = new Socio();
+                                    s.IdSocio = Convert.ToInt32(db.DataReader["idSocio"]);
+                                    s.Nombre = db.DataReader["nombre"].ToString();
+                                    s.Apellidos = db.DataReader["Apellidos"].ToString();
+                                    s.Mail = db.DataReader["mail"].ToString();
+                                    s.Telefono = db.DataReader["telefono"].ToString();
+                                    s.NumeroSocioCMV = db.DataReader["numeroSocioCMV"].ToString();
+                                    s.Direccion = db.DataReader["direccion"].ToString();
+                                    s.Asistencia = Convert.ToInt16(db.DataReader["asistencia"]);
+                                    lstSocios.Add(s);
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return lstSocios;
+        }
         #region Funciones para la APP
 
 

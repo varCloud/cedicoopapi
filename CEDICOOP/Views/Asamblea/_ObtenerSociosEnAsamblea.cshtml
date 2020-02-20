@@ -25,7 +25,7 @@
                                     <td>
                                         <div class="checkbox checbox-switch switch-success">
                                             <label>
-                                                <input class="checkSocio" idsocio ="@item.IdSocio" id="check" type="checkbox" name="switch8" checked="">
+                                                <input class="checkSocio" idsocio ="@item.IdSocio" id="check" type="checkbox" name="switch8"  @(item.Asistencia > 0  ? "checked" : "uncheked") >
                                                 <span></span>
                                             </label>
                                         </div>

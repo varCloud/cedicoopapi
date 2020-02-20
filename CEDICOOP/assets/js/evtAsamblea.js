@@ -95,7 +95,7 @@ function InitDataTable() {
 
     $('#tblAsam tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
-        var idAsamblea = $(tr).find('td:eq( 1 )').html();
+        var idAsamblea = $(tr).find('td:eq( 2 )').html();
         console.log(idAsamblea);
 
         var row = table.row(tr);   
@@ -164,6 +164,7 @@ function AsignarSociosAsamblea(idAsamblea) {
     console.log("idAsamblea: " + idAsamblea);
     $.ajax({
         url: rootUrl("/Asamblea/_ObtenerSociosEnAsamblea"),
+        data: { IdAsamblea: idAsamblea },
         method: 'post',
         dataType: 'html',
         async: false,
@@ -174,12 +175,8 @@ function AsignarSociosAsamblea(idAsamblea) {
             $('#mdlAsignarSociosAsamblea').modal({ backdrop: 'static', keyboard: false, show: true });
             $('.checkSocio').click(function () {
                 console.log($(this).attr("idsocio"))
-                if ($(this).prop("checked") == true) {
-                    
-                }
-                else if ($(this).prop("checked") == false) {
-                    
-                }
+                ActualizaEstatusRegistroAsamblea(idAsamblea, $(this).attr("idsocio"), ($(this).prop("checked") == true ? 1 : 0));
+                console.log($(this).prop("checked"));
             });
         },
         error: function (xhr, status) {
@@ -189,6 +186,31 @@ function AsignarSociosAsamblea(idAsamblea) {
         }
     });
 }
+
+function ActualizaEstatusRegistroAsamblea(idAsamblea, idSocio, Asistencia) {
+
+    $.ajax({
+        url: rootUrl("/Asamblea/RegitrarSocioAsamblea"),
+        data: { IdSocio: idSocio, IdAsamblea: idAsamblea, Asistencia : Asistencia },
+        method: 'post',
+        dataType: 'json',
+        async: false,
+        beforeSend: function (xhr) {
+        },
+        success: function (datos) {
+            console.log(datos);
+            swal('', datos.Mensaje, (datos.Estatus == 200 ? 'success' : 'error'));
+            PintarAsambleas();
+        },
+        error: function (xhr, status) {
+            console.log('Disculpe, existió un problema');
+            console.log(xhr);
+            console.log(status);
+        }
+    });
+
+}
+
 function EditarAsamblea(idAsamblea) {
 
     $.ajax({
@@ -347,7 +369,7 @@ function FinalizarAsamblea(idAsamblea) {
 function AgregarActivarAcuerdos(idAsamblea, accion) {
     console.log("idAsamblea: " + idAsamblea);
     $('#mdlAgregarAcuerdos').modal({ backdrop: 'static', keyboard: false, show: true });
-    $('#mdlAgregarAcuerdosTitle').html((accion == 1 ? "Agregar Asamblea" : "Activar Acuerdos"));
+    $('#mdlAgregarAcuerdosTitle').html((accion == 1 ? "Agregar Acuerdos " : "Activar Acuerdos"));
     $("#IdAsambleaAcuerdo").val(idAsamblea);
     $("#Descripcion").val('');
     $('#frmAcuerdo').css('display', (accion == 1 ? '':'none'));

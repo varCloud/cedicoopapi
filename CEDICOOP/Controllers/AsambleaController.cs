@@ -20,11 +20,11 @@ namespace CEDICOOP.Controllers
         }
 
 
-        public ActionResult _ObtenerSociosEnAsamblea()
+        public ActionResult _ObtenerSociosEnAsamblea(int IdAsamblea)
         {
             try
             {
-                List<Models.Socio> Lstsocio = new SocioDAO().ObtenerSocios(new Models.Socio() { IdSocio = 0 });
+                List<Models.Socio> Lstsocio = new AsambleaDAO().ObtenerSociosEnAsamblea(IdAsamblea);
                 return PartialView("_ObtenerSociosEnAsamblea", Lstsocio);
             }
             catch (Exception ex)
@@ -190,6 +190,10 @@ namespace CEDICOOP.Controllers
             }
         }
 
+
+
+        
+     
         [HttpPost]
         public JsonResult RegitrarSocioAsamblea(RequestRegistrarSocioAsamblea request)
         {
