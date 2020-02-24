@@ -10,3 +10,19 @@ Server=sql5032.site4now.net;
 Database=DB_A0966E_Cedicoop;
 User Id=DB_A0966E_Cedicoop_admin;
 Password=Abcde12345;
+
+-------------------------------------------------------------
+
+MetaDatos de la APP
+The purpose of the application is to vote from the app without registering your vote on paper this in the first phase. then it is intended to have a profile of each partner among other updates, then I answer each of the questions you asked
+
+Who is the target audience? R= they are the members affiliated with the cooperative named Cedicoop and these can be both internal and external
+
+- How do users obtain an account? R= To obtain an account it is necessary to be a member of Cedicoop which has an administrator to register the members you can check it in this link http://apicoo.dsimorelia.com/
+
+
+Is this app meant for internal distribution in your own company, in the company of one target client, or in multiple target clients’ companies? R= It is only for one company the partners must pass a prior registration before, but the partners can be employees of the company or not
+
+In which countries will this application be distributed mainly? R=at the moment it will only be for Mexico
+
+If this application is intended for internal distribution, will both internal and external partners be accessible? Or will it be exclusive for internal employees? R=The application can work for both internal and external the only requirement is to be a member of the cooperative
