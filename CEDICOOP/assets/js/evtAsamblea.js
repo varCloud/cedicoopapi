@@ -245,7 +245,6 @@ function verAcuerdos(idAsamblea ,row) {
 
 }
 
-
 function InitBtnAgregar() {
     $('#btnAgregarAsamblea').click(function (e) {
         $('#btnReseFrm').trigger('click');
@@ -322,10 +321,23 @@ function EditarAsamblea(idAsamblea) {
             $('#NombreAsamblea').val(datos.NombreAsamblea);
             $('#FechaAsamblea').datepicker("setDate", new Date(Date.parseJSON(datos.FechaAsamblea)));
             //$('#FechaAsamblea').val(Date.parseJSON(datos.FechaAsamblea)).trigger('change');
-            $('#Direccion').val(datos.Direccion);
 
+            satDropzone.removeAllFiles();
+            var URLdomainImage = "http://" + window.location.host + datos.MaterialPDF.pathExpediente;
+            var mockFile = { name: datos.MaterialPDF.nombreDoc, size: datos.MaterialPDF.pesoByte, id: datos.MaterialPDF.id, pathExpediente: datos.MaterialPDF.pathExpediente };
+            satDropzone.emit("addedfile", mockFile);
+            satDropzone.files.push(mockFile);
+            satDropzone.options.thumbnail.call(satDropzone, mockFile, URLdomainImage);
+            satDropzone.emit("complete", mockFile);
+
+
+            $('#Direccion').val(datos.Direccion);
             $('#mdlAgregarAsamblea').modal({ backdrop: 'static', keyboard: false, show: true });
             $('#mdlAgregarAsambleaTitle').html("Editar Asamblea");
+
+
+
+
         },
         error: function (xhr, status) {
             console.log('Disculpe, existió un problema');

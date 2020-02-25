@@ -86,7 +86,11 @@ namespace CEDICOOP.DAO
                                 a.EstatusAsamblea = (EstatusAsamblea)Convert.ToInt32(db.DataReader["idEstatusAsamblea"]);
                                 a.TotalAcuerdos = Convert.ToInt32(db.DataReader["acuerdos"]);
                                 a.MaterialPDF = new Expediente();
-                                a.MaterialPDF.pathExpediente= (db.DataReader["pathMaterialAsamblea"] == DBNull.Value ? "" : db.DataReader["pathMaterialAsamblea"].ToString());
+                                a.MaterialPDF.id = (db.DataReader["idAsamblea"] == DBNull.Value ? 0 : Convert.ToInt32(db.DataReader["idAsamblea"].ToString()));
+                                a.MaterialPDF.extencionArchivo = (db.DataReader["extencionArchivo"] == DBNull.Value ? "" : db.DataReader["extencionArchivo"].ToString());
+                                a.MaterialPDF.nombreDoc = (db.DataReader["nombreDocumento"] == DBNull.Value ? "" : db.DataReader["nombreDocumento"].ToString());
+                                a.MaterialPDF.pesoByte = (db.DataReader["pesoByte"] == DBNull.Value ? 0 :  Convert.ToInt32(db.DataReader["pesoByte"].ToString()));
+                                a.MaterialPDF.pathExpediente= (db.DataReader["pathDocumento"] == DBNull.Value ? "" : db.DataReader["pathDocumento"].ToString());
                                 lstAsamblea.Add(a);
 
                             }
@@ -112,9 +116,12 @@ namespace CEDICOOP.DAO
                 using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
                 {
                     db.Open();
-                    db.CreateParameters(2);
+                    db.CreateParameters(5);
                     db.AddParameters(0, "@idAsamblea",asamblea.IdAsamblea);
                     db.AddParameters(1, "@path", asamblea.MaterialPDF.pathExpediente);
+                    db.AddParameters(2, "@nombreDocumento", asamblea.MaterialPDF.nombreDoc);
+                    db.AddParameters(3, "@extencionArchivo", asamblea.MaterialPDF.extencionArchivo);
+                    db.AddParameters(4, "@pesoByte", asamblea.MaterialPDF.pesoByte);
                     db.ExecuteNonQuery(System.Data.CommandType.StoredProcedure, "SP_INSERTA_PATH_MATERIAL_ASAMBLEA");
                 }
             }
