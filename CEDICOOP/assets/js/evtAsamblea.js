@@ -162,10 +162,11 @@ function InitDrop() {
             console.log('sending single');
         },
         success: function (file, data) {
+            console.log('success');
             file.previewElement.classList.add("dz-success");
             if (data.Estatus == 200)
                 swal("Notificación", data.Mensaje, data.TipoAlerta);
-            $('#verticalCenter').modal('hide');
+            $('#mdlAgregarAsamblea').modal('hide');
             ObtenerSocio(0);
         },
         

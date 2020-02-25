@@ -34,7 +34,7 @@
                             <td>@item.EstatusAsamblea</td>
                             <td>
 
-                                @if (item.EstatusAsamblea == CEDICOOP.Models.EstatusAsamblea.Finalizada)
+                                @if (item.EstatusAsamblea == CEDICOOP.Models.EstatusAsamblea.Finalizada || item.EstatusAsamblea == CEDICOOP.Models.EstatusAsamblea.Pendiente)
                                 {
                                     <a href="javascript:EliminarAsamblea(@item.IdAsamblea);" data-toggle="tooltip" title="Eliminar Asamblea" class="botones-bluecloud tooltip-wrapper btn btn-icon btn-round btn-outline-dark"><i class="ti ti-close"></i></a>
                                 }
