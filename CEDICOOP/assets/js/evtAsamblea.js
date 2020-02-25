@@ -118,6 +118,99 @@ function InitDataTable() {
     });
 }
 
+function InitDrop() {
+
+    $("#dropZoneMaterialAsamblea").append("<form id='FrmdropZoneMaterialAsamblea' class='dropzone borde-dropzone' style='cursor: pointer;'></form>");
+    DropzoneOptions = {
+        url: rootUrl("/Asamblea/GuardarAsamblea"),
+        addRemoveLinks: true,
+        paramName: "archivo",
+        maxFilesize: 4, // MB
+        dictRemoveFile: "Eliminar",
+        acceptedFiles: ".pdf,.jpg,.png",
+        //maxFiles: 50,
+        parallelUploads: 20,
+        uploadMultiple: false,
+        autoProcessQueue: false, // true para envíar en automatico
+        init: function () {
+            this.on("maxfilesexceeded", function (file) {
+                this.removeFile(file);
+                swal("Error", "No se puede subir mas de un archivo", "error");
+            });
+            this.on("addedfile", function (file) {
+                PintaIconoPreview(file);
+            });
+            this.on("removedfile", function (file) {
+                if ($('#idSocio').val() !== '0') {
+                    EliminarExpediente($('#idSocio').val(), file);
+                }
+            });
+            this.on("complete", function (file) {
+                PintaIconoPreview(file);
+            });
+
+        },
+        /*
+         * ESTA FUNCION SE UTILIZA PARA CUANDO SOLO SE ENVIA UN SOLO ARCHIVO
+         **/
+        sending: function (file, xhr, formData) {
+            var formSocio = $("#frmAsamblea").serializeArray();
+            var socio = castFormToJson(formSocio);
+            for (var key in socio) {
+                formData.append(key, socio[key]);
+            }
+            console.log('sending single');
+        },
+        success: function (file, data) {
+            file.previewElement.classList.add("dz-success");
+            if (data.Estatus == 200)
+                swal("Notificación", data.Mensaje, data.TipoAlerta);
+            $('#verticalCenter').modal('hide');
+            ObtenerSocio(0);
+        },
+        
+        /* esta funcion es para cuando envias mas de un archivo 
+        sendingmultiple: function (file, xhr, formData) {
+            var formSocio = $("#frmSocio").serializeArray();
+            var socio = castFormToJson(formSocio);
+            for (var key in socio) {
+                formData.append(key, socio[key]);
+            }
+            console.log('sendingmultiple');
+        },
+        successmultiple: function (file, data) {
+            console.log(data);
+            if (data.Estatus == 200) {
+                swal("Notificación", data.Mensaje, data.TipoAlerta);
+                PintarTabla();
+            }
+            $('#verticalCenter').modal('hide');
+        },
+        processingmultiple: function (file, data) {
+            console.log(file);
+        },
+        */
+        error: function (file, response) {
+            file.previewElement.classList.add("dz-error");
+            $('#verticalCenter').modal('hide');
+            console.log(response);
+
+        }
+    } // FIN myAwesomeDropzone
+    satDropzone = new Dropzone("#FrmdropZoneMaterialAsamblea", DropzoneOptions);
+
+
+}
+
+function PintaIconoPreview(file) {
+    var img = file.previewElement.querySelector("img");
+    var ext = (file.name).split('.')[1]
+    if (ext === 'pdf') {
+        $(img).attr("src", rootUrl("/assets/img/file-icon/pdf.png"));
+    }
+    $(img).css('width', '120');
+}
+
 function verAcuerdos(idAsamblea ,row) {
 
     var data ="<div>No existen acuerdos</div>"
@@ -150,6 +243,7 @@ function verAcuerdos(idAsamblea ,row) {
     });
 
 }
+
 
 function InitBtnAgregar() {
     $('#btnAgregarAsamblea').click(function (e) {
@@ -504,4 +598,13 @@ function initDate() {
 $(document).ready(function () {
     InitDataTable();
     initDate();
+    InitDrop();
+    $('#btnGuardarAsamblea').click(function (e) {
+        satDropzone.processQueue();
+        //if ($("#frmSocio").valid()) {
+        //    console.log('btnGuardarSocio');
+        //    satDropzone.processQueue();
+        //} else
+        //    console.log("IN-valido")
+    });
 });

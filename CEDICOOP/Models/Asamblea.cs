@@ -20,5 +20,7 @@ namespace CEDICOOP.Models
         public List<Acuerdo> Acuerdos { get; set; }
      
         public EstatusAsamblea EstatusAsamblea { get; set; }
+
+        public Expediente MaterialPDF { get; set; }
     }
 }

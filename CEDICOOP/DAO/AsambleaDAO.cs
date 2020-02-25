@@ -39,6 +39,8 @@ namespace CEDICOOP.DAO
                             n = new Notificacion<Asamblea>();
                             n.Estatus = Convert.ToInt32(db.DataReader["estatus"]);
                             n.Mensaje = db.DataReader["mensaje"].ToString();
+                            asamblea.IdAsamblea = Convert.ToInt16(db.DataReader["idAsambleaAux"]);
+                            n.Model = asamblea;
                             n.TipoAlerta = "success";
                         }
                     }
@@ -83,6 +85,8 @@ namespace CEDICOOP.DAO
                                 a.FechaAsamblea = Convert.ToDateTime(db.DataReader["fechaAsamblea"]);
                                 a.EstatusAsamblea = (EstatusAsamblea)Convert.ToInt32(db.DataReader["idEstatusAsamblea"]);
                                 a.TotalAcuerdos = Convert.ToInt32(db.DataReader["acuerdos"]);
+                                a.MaterialPDF = new Expediente();
+                                a.MaterialPDF.pathExpediente= (db.DataReader["pathMaterialAsamblea"] == DBNull.Value ? "" : db.DataReader["pathMaterialAsamblea"].ToString());
                                 lstAsamblea.Add(a);
 
                             }
@@ -99,6 +103,25 @@ namespace CEDICOOP.DAO
                 throw ex;
             }
             return lstAsamblea;
+        }
+        
+        public void InsertarPathMaterialAsamblea(Asamblea asamblea)
+        {
+            try
+            {
+                using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
+                {
+                    db.Open();
+                    db.CreateParameters(2);
+                    db.AddParameters(0, "@idAsamblea",asamblea.IdAsamblea);
+                    db.AddParameters(1, "@path", asamblea.MaterialPDF.pathExpediente);
+                    db.ExecuteNonQuery(System.Data.CommandType.StoredProcedure, "SP_INSERTA_PATH_MATERIAL_ASAMBLEA");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public Notificacion<Object> EliminarAsamblea(Int64 idAsamblea)
         {

@@ -69,22 +69,27 @@
                                         @Html.TextBoxFor(x => x.Direccion, null, new { @class = "form-control", @id = "Direccion", placeholder = "Direccion" })
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="exampleInputEmail1">Cargar material para la asamblea (PDF)</label>
+                                        <div class="col-md-12" id="dropZoneMaterialAsamblea"></div>
+                                    </div>
+                                </div>
                                 <input type="reset" id="btnReseFrm" value="Reset" style="display:none" />
-
-
                             </div>
                             <div class="tab-pane fade" id="tabExpedientesElectronicos" role="tabpanel" aria-labelledby="portfolio-10-tab">
-                                <div class="col-md-12" id="dropZoneExpediente"></div>
+                                <div class="col-md-12" id=""></div>
                                 <div class="row" id="rowExpedientes"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+            }
                 <div class="modal-footer">
                     <button type="submit" id="btnGuardarAsamblea" class="btn btn-success">Guardar</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 </div>
-            }
+            
         </div>
     </div>
 </div>

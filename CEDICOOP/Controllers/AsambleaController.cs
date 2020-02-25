@@ -3,9 +3,11 @@ using CEDICOOP.DAO;
 using CEDICOOP.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace CEDICOOP.Controllers
@@ -82,6 +84,9 @@ namespace CEDICOOP.Controllers
             try
             {
                 Notificacion<Asamblea> n =  new AsambleaDAO().AgregaraAsamblea(asamblea);
+                n.Model.MaterialPDF =  ObtenerFormatosTempHttpPost(Request, n.Model);
+                new AsambleaDAO().InsertarPathMaterialAsamblea(asamblea);
+
                 return new JsonResult() { Data = n , JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
             catch (Exception ex)
@@ -90,7 +95,52 @@ namespace CEDICOOP.Controllers
             }
 
         }
-        
+
+        private Expediente ObtenerFormatosTempHttpPost(HttpRequestBase httpRequestBase, Asamblea s)
+        {
+            Expediente e = new Expediente();
+            try
+            {
+                if (httpRequestBase.Files.Count > 0)
+                {
+                   
+                    for (int i = 0; i < httpRequestBase.Files.Count; i++)
+                    {
+
+                        var file = httpRequestBase.Files[i];
+                        if (file != null && file.ContentLength > 0)
+                        {
+                            string idAleatorio = Guid.NewGuid().ToString().Substring(0, 3) + DateTime.Now.ToString("yyyyMMdd");
+                            string nombreCarpeta = WebConfigurationManager.AppSettings["pathExpedientesMaterial"].ToString();
+
+
+                            string pathGeneral = Server.MapPath("~" + nombreCarpeta + "/" + s.IdAsamblea.ToString());
+
+                            if (!System.IO.Directory.Exists(pathGeneral))
+                                System.IO.Directory.CreateDirectory(pathGeneral);
+
+                            string nombre = Path.GetFileName(s.IdAsamblea + "_" + idAleatorio + "_" + file.FileName.Replace(" ", "").ToLower().ToString());
+                            string pathFormato = Path.Combine(pathGeneral, nombre);
+
+                            file.SaveAs(pathFormato);
+                            e = new Expediente();
+                            e.nombreDoc = nombre;
+                            e.extencionArchivo = Path.GetExtension(file.FileName);
+                            e.pesoByte = file.ContentLength;
+                            e.pathExpediente = nombreCarpeta + "/" + s.IdAsamblea.ToString() + "/" + nombre;
+                           
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+            return e;
+        }
+
         [HttpPost]
         public JsonResult AgregaraAcuerdo(Acuerdo acuerdo)
         {
