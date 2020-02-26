@@ -143,6 +143,20 @@ namespace CEDICOOP.Controllers
         }
 
         [HttpPost]
+        public ActionResult EliminarMaterial(int idAsamblea, Expediente exp)
+        {
+            try
+            {
+                Notificacion<String> n = new SocioDAO().EliminarExpediente(idAsamblea, exp);
+                return Json(n, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
         public JsonResult AgregaraAcuerdo(Acuerdo acuerdo)
         {
             try

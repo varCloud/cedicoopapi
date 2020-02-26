@@ -4,6 +4,7 @@ using CEDICOOP.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -130,6 +131,7 @@ namespace CEDICOOP.DAO
                 throw ex;
             }
         }
+
         public Notificacion<Object> EliminarAsamblea(Int64 idAsamblea)
         {
             Notificacion<Object> n = null;
@@ -150,6 +152,42 @@ namespace CEDICOOP.DAO
                             n.Mensaje = db.DataReader["mensaje"].ToString();
                             n.TipoAlerta = "success";
                             n.Model = idAsamblea;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return n;
+        }
+
+        public Notificacion<Object> EliminarMaterial(Int64 idAsamblea, Expediente expediente)
+        {
+            Notificacion<Object> n = null;
+            try
+            {
+                using (db = new DBManager(ConfigurationManager.AppSettings["conexionString"].ToString()))
+                {
+                    db.Open();
+                    db.CreateParameters(1);
+                    db.AddParameters(0, "@idAsamblea", idAsamblea);
+                    db.ExecuteReader(System.Data.CommandType.StoredProcedure, "SP_ELIMINAR_MATERIAL_ASAMBLEA");
+                    if (db.DataReader.Read())
+                    {
+                        if (Convert.ToInt32(db.DataReader["estatus"].ToString()) == 200)
+                        {
+                            n = new Notificacion<Object>();
+                            n.Estatus = Convert.ToInt32(db.DataReader["estatus"]);
+                            n.Mensaje = db.DataReader["mensaje"].ToString();
+                            n.TipoAlerta = "success";
+                            n.Model = idAsamblea;
+                            string pathArchivo = AppDomain.CurrentDomain.BaseDirectory.ToString();
+                            pathArchivo += expediente.pathExpediente.Replace(@"/", @"\");
+                            if (File.Exists(pathArchivo))
+                                File.Delete(pathArchivo);
                         }
                     }
                 }

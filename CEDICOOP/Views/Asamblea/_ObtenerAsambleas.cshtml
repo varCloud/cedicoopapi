@@ -5,7 +5,7 @@
     <div class="card card-statistics">
         <div class="card-body">
             <div class="export-table-wrapper table-responsive">
-                <table id="tblAsam" class="table table-bordered">
+                <table id="tblAsam" class="table table-bordered ">
                     <thead class="thead-light">
                         <tr>
                             <th></th>
@@ -16,22 +16,45 @@
                             <th>Direccion Asamblea</th>
                             <th>Fecha Asamblea</th>
                             <th>Estatus</th>
+                            <th>Material</th>
                             <th>#Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
+                            string estatusColor = string.Empty;
+                            switch (item.EstatusAsamblea)
+                            {
+                                case CEDICOOP.Models.EstatusAsamblea.Ninguno:
+                                    break;
+                                case CEDICOOP.Models.EstatusAsamblea.Pendiente:
+                                    estatusColor = "warning";
+                                    break;
+                                case CEDICOOP.Models.EstatusAsamblea.Activa:
+                                    estatusColor = "success";
+                                    break;
+                                case CEDICOOP.Models.EstatusAsamblea.Finalizada:
+                                    estatusColor = "info";
+                                    break;
+                                default:
+                                    break;
+                            }
+                        <tr role="row">
                             <td class="details-control"><a href="#" data-toggle="tooltip" title="Ver Acuerdos" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-info"><i class="fa fa-search-plus"></i></a></td>
-                            <td><a href="javascript:AsignarSociosAsamblea(@item.IdAsamblea);" data-toggle="tooltip" title="Asignar Socios" class="botones-bluecloud tooltip-wrapper btn btn-icon  btn-inverse-success"><i  style ="font-size:18px"class="fa fa-address-book-o
-"></i></a></td>
+                            <td>
+                                <a href="javascript:AsignarSociosAsamblea(@item.IdAsamblea);" data-toggle="tooltip" title="Asignar Socios" class="botones-bluecloud tooltip-wrapper btn btn-icon  btn-inverse-success">
+                                    <i style="font-size:18px" class="fa fa-address-book-o
+"></i>
+                                </a>
+                            </td>
                             <td class="id-asamblea">@item.IdAsamblea</td>
                             <td>@item.NombreAsamblea</td>
                             <td><b class="text-danger">@(item.TotalAcuerdos == 0 ? "Sin Acuerdos" : item.TotalAcuerdos.ToString())</b></td>
                             <td>@item.Direccion</td>
                             <td>@item.FechaAsamblea.ToShortDateString()</td>
-                            <td>@item.EstatusAsamblea</td>
+                            <td><span class="badge badge-@estatusColor-inverse">@item.EstatusAsamblea</span></td>
+                            <td><a href="javascript:verMaterial(@item.IdAsamblea,'@item.MaterialPDF.pathExpediente');" title="Ver Material" class="btn btn-square btn-inverse-@(string.IsNullOrEmpty(item.MaterialPDF.pathExpediente) ? "danger": "info") btn-xs ml-1">@(string.IsNullOrEmpty(item.MaterialPDF.pathExpediente) ? "N/A" : "Ver Material")</a></td>
                             <td>
 
                                 @if (item.EstatusAsamblea == CEDICOOP.Models.EstatusAsamblea.Finalizada || item.EstatusAsamblea == CEDICOOP.Models.EstatusAsamblea.Pendiente)

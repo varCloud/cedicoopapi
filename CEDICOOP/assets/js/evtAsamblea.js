@@ -141,8 +141,9 @@ function InitDrop() {
                 PintaIconoPreview(file);
             });
             this.on("removedfile", function (file) {
-                if ($('#idSocio').val() !== '0') {
-                    EliminarExpediente($('#idSocio').val(), file);
+                if ($('#idAsamblea').val() !== '0') {
+                    
+                    EliminarMaterial($('#idAsamblea').val(),file);
                 }
             });
             this.on("complete", function (file) {
@@ -161,13 +162,14 @@ function InitDrop() {
             }
             console.log('sending single');
         },
+
         success: function (file, data) {
             console.log('success');
             file.previewElement.classList.add("dz-success");
             if (data.Estatus == 200)
                 swal("Notificación", data.Mensaje, data.TipoAlerta);
             $('#mdlAgregarAsamblea').modal('hide');
-            ObtenerSocio(0);
+            PintarAsambleas();
         },
         
         /* esta funcion es para cuando envias mas de un archivo 
@@ -201,6 +203,29 @@ function InitDrop() {
     satDropzone = new Dropzone("#FrmdropZoneMaterialAsamblea", DropzoneOptions);
 
 
+}
+
+function EliminarMaterial(idAsamblea, file) {
+    if (typeof file.id !== 'undefined') {
+        var mockFile = { nombreDoc: file.name, id: file.id, pathExpediente: file.pathExpediente };
+        $.ajax({
+            url: rootUrl("/Asamblea/EliminarMaterial"),
+            data: { idAsamblea: idAsamblea, exp: mockFile },
+            method: 'post',
+            dataType: 'json',
+            async: false,
+            beforeSend: function (xhr) {
+            },
+            success: function (data) {
+                swal("Notificación", data.Mensaje, data.TipoAlerta);
+            },
+            error: function (xhr, status) {
+                console.log('Disculpe, existió un problema');
+                console.log(xhr);
+                console.log(status);
+            }
+        });
+    }
 }
 
 function PintaIconoPreview(file) {
@@ -346,6 +371,28 @@ function EditarAsamblea(idAsamblea) {
         }
     });
 
+}
+
+function verMaterial(idAsamblea,url) {
+    if (url !== '') {
+        console.log("idAsamblea", idAsamblea);
+        initFrame(url);
+        $('#mdlVerMaterial').modal({ backdrop: 'static', keyboard: false, show: true });
+    } else {
+        notificacion('success', 'no existe material para esta asamblea');
+    }
+
+}
+
+function initFrame(url) {
+
+    iframe = $('<embed src="" style="width: 90%;margin-left:5%" height="600" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">');
+    iframe.innerHTML = "";
+    iframe.attr('src', rootUrl(url));
+    $('#rowPDFViewMaterial').html('');
+    $('#rowPDFViewMaterial').append(iframe);
+    var content = iframe.innerHTML;
+    iframe.innerHTML = content;
 }
 
 function EliminarAsamblea(idAsamblea) {
