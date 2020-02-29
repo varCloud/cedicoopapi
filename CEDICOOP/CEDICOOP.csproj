@@ -196,16 +196,6 @@
     <Content Include="assets\fonts\linea-weather.svg" />
     <Content Include="assets\fonts\material-icons.svg" />
     <Content Include="assets\fonts\themify-icons.svg" />
-    <Content Include="assets\img\avtar\01.jpg" />
-    <Content Include="assets\img\avtar\02.jpg" />
-    <Content Include="assets\img\avtar\03.jpg" />
-    <Content Include="assets\img\avtar\04.jpg" />
-    <Content Include="assets\img\avtar\05.jpg" />
-    <Content Include="assets\img\avtar\06.jpg" />
-    <Content Include="assets\img\avtar\07.jpg" />
-    <Content Include="assets\img\avtar\08.jpg" />
-    <Content Include="assets\img\avtar\09.jpg" />
-    <Content Include="assets\img\avtar\10.jpg" />
     <Content Include="assets\img\bg\coming-soon-bg.svg" />
     <Content Include="assets\img\bg\login.svg" />
     <Content Include="assets\img\browser-logo\bootstrap.png" />
@@ -234,15 +224,6 @@
     <Content Include="assets\img\file-icon\xls.png" />
     <Content Include="assets\img\file-icon\xml.png" />
     <Content Include="assets\img\file-icon\zip.png" />
-    <Content Include="assets\img\flags\au.png" />
-    <Content Include="assets\img\flags\bd.png" />
-    <Content Include="assets\img\flags\ca.png" />
-    <Content Include="assets\img\flags\cn.png" />
-    <Content Include="assets\img\flags\es.png" />
-    <Content Include="assets\img\flags\gb.png" />
-    <Content Include="assets\img\flags\in.png" />
-    <Content Include="assets\img\flags\lk.png" />
-    <Content Include="assets\img\flags\nz.png" />
     <Content Include="assets\img\icono.png" />
     <Content Include="assets\img\loader\loader.svg" />
     <Content Include="assets\img\logo-icon.png" />
@@ -252,16 +233,6 @@
     <Content Include="assets\img\marker\purple.html" />
     <Content Include="assets\img\marker\red.html" />
     <Content Include="assets\img\product.jpg" />
-    <Content Include="assets\img\real-estate\01.jpg" />
-    <Content Include="assets\img\real-estate\02.jpg" />
-    <Content Include="assets\img\real-estate\03.jpg" />
-    <Content Include="assets\img\real-estate\04.jpg" />
-    <Content Include="assets\img\real-estate\05.jpg" />
-    <Content Include="assets\img\real-estate\06.jpg" />
-    <Content Include="assets\img\slider\slide-1.jpg" />
-    <Content Include="assets\img\slider\slide-2.jpg" />
-    <Content Include="assets\img\slider\slide-3.jpg" />
-    <Content Include="assets\img\slider\slide-4.jpg" />
     <Content Include="assets\img\txt.html" />
     <Content Include="assets\img\widget\01.jpg" />
     <Content Include="assets\img\widget\010.html" />
@@ -377,6 +348,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="assets\img\avtar\" />
+    <Folder Include="assets\img\flags\" />
+    <Folder Include="assets\img\real-estate\" />
+    <Folder Include="assets\img\slider\" />
     <Folder Include="DLL\" />
   </ItemGroup>
   <ItemGroup>

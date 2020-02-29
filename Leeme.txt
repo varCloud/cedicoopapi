@@ -10,7 +10,7 @@ Server=sql5032.site4now.net;
 Database=DB_A0966E_Cedicoop;
 User Id=DB_A0966E_Cedicoop_admin;
 Password=Abcde12345;
-
+<domain includeSubdomains="true">apicoo.dsimorelia.com</domain>
 -------------------------------------------------------------
 
 MetaDatos de la APP
