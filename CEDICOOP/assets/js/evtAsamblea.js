@@ -526,8 +526,15 @@ function AgregarActivarAcuerdos(idAsamblea, accion) {
     $('#mdlAgregarAcuerdosTitle').html((accion == 1 ? "Agregar Acuerdos " : "Activar Acuerdos"));
     $("#IdAsambleaAcuerdo").val(idAsamblea);
     $("#Descripcion").val('');
-    $('#frmAcuerdo').css('display', (accion == 1 ? '':'none'));
+    $('#frmAcuerdo').css('display', (accion == 1 ? '' : 'none'));
+    $('#btnActualizarVotos').css('display', (accion == 1 ? 'none' : ''));
     PintarAcuerdos(idAsamblea, accion);
+}
+
+function ActualizarVotacion() {
+    PintarAcuerdos($("#IdAsambleaAcuerdo").val(), "Activar");
+    notificacion("success", "Votos actualizados");
+    $('#btnActualizarVotos').unbind('active'); 
 }
 
 function PintarAcuerdos(idAsamblea, accion) {
@@ -600,7 +607,7 @@ function ActivarAcuerdo(activarVotacion, idAsamblea,idAcuerdo, ) {
         success: function (datos) {
             swal('', datos.Mensaje, (datos.Estatus == 200 ? 'success' : 'error'));
             $('.tooltip-wrapper').tooltip('hide');
-            PintarAcuerdos(idAsamblea, 2);
+            PintarAcuerdos(idAsamblea, "Activar");
         },
         error: function (xhr, status) {
             console.log('Disculpe, existió un problema');
@@ -666,5 +673,10 @@ $(document).ready(function () {
         //    satDropzone.processQueue();
         //} else
         //    console.log("IN-valido")
+    });
+    $('[rel=tooltip]').tooltip({ trigger: "hover" });
+    $('[data-toggle="tooltip"]').click(function () {
+        $('[data-toggle="tooltip"]').tooltip("hide");
+
     });
 });
