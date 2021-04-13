@@ -125,24 +125,33 @@ function InitDrop() {
         url: rootUrl("/Asamblea/GuardarAsamblea"),
         addRemoveLinks: true,
         paramName: "archivo",
-        maxFilesize: 4, // MB
+        maxFilesize: 10, // MB
         dictRemoveFile: "Eliminar",
         acceptedFiles: ".pdf,.jpg,.png",
-        //maxFiles: 50,
-        parallelUploads: 20,
+        dictFileTooBig: "Por favor verifica el peso del archivo, maximo 10 Mb",
+        maxFiles: 1,
+        //parallelUploads: 20,
         uploadMultiple: false,
         autoProcessQueue: false, // true para envíar en automatico
         init: function () {
             this.on("maxfilesexceeded", function (file) {
+                console.log("maxfilesexceeded")
                 this.removeFile(file);
                 swal("Error", "No se puede subir mas de un archivo", "error");
             });
+
+            this.on("maxfilesreached", function (file) {
+                console.log("maxfilesreached")
+               
+            });
+
+            
             this.on("addedfile", function (file) {
+                console.log("addedfile")
                 PintaIconoPreview(file);
             });
             this.on("removedfile", function (file) {
                 if ($('#idAsamblea').val() !== '0') {
-                    
                     EliminarMaterial($('#idAsamblea').val(),file);
                 }
             });
@@ -194,9 +203,14 @@ function InitDrop() {
         },
         */
         error: function (file, response) {
+            notificacion("warning", response);
             file.previewElement.classList.add("dz-error");
-            $('#verticalCenter').modal('hide');
-            console.log(response);
+            $(file.previewElement).find('.dz-error-message').html(response);
+            //console.log(response)
+            //console.log(file);
+            
+            //$('#verticalCenter').modal('hide');
+            //console.log(response);
 
         }
     } // FIN myAwesomeDropzone
@@ -341,13 +355,16 @@ function EditarAsamblea(idAsamblea) {
         beforeSend: function (xhr) {
         },
         success: function (datos) {
+
+            $('#idAsamblea').val(0)
+            satDropzone.removeAllFiles();
             $('#btnReseFrm').trigger('click');
             $('#idAsamblea').val(datos.IdAsamblea);
             $('#NombreAsamblea').val(datos.NombreAsamblea);
             $('#FechaAsamblea').datepicker("setDate", new Date(Date.parseJSON(datos.FechaAsamblea)));
             //$('#FechaAsamblea').val(Date.parseJSON(datos.FechaAsamblea)).trigger('change');
 
-            satDropzone.removeAllFiles();
+           
             var URLdomainImage = "http://" + window.location.host + datos.MaterialPDF.pathExpediente;
             var mockFile = { name: datos.MaterialPDF.nombreDoc, size: datos.MaterialPDF.pesoByte, id: datos.MaterialPDF.id, pathExpediente: datos.MaterialPDF.pathExpediente };
             satDropzone.emit("addedfile", mockFile);
@@ -435,6 +452,47 @@ function EliminarAsamblea(idAsamblea) {
 
             }
         })
+
+}
+
+function EliminarAcuerdo(descripcion, idAsamblea, idAcuerdo) {
+    swal({
+        title: '?',
+        text: "Estas seguro que deseas eliminar el Acuerdo",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'cancelar!',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: true,
+        reverseButtons: true
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                url: rootUrl("/Asamblea/EliminarAcuerdo"),
+                data: { IdAcuerdo: idAcuerdo, IdAsamblea: idAsamblea },
+                method: 'post',
+                dataType: 'json',
+                async: false,
+                beforeSend: function (xhr) {
+                },
+                success: function (datos) {
+                    swal('', datos.Mensaje, (datos.Estatus == 200 ? 'success' : 'error'));
+                    PintarAcuerdos(datos.Model.IdAsamblea, "Agregar");
+
+                },
+                error: function (xhr, status) {
+                    console.log('Disculpe, existió un problema');
+                    console.log(xhr);
+                    console.log(status);
+                }
+            });
+
+        }
+    })
 
 }
 
@@ -667,12 +725,8 @@ $(document).ready(function () {
     initDate();
     InitDrop();
     $('#btnGuardarAsamblea').click(function (e) {
+        console.log("guardar");
         satDropzone.processQueue();
-        //if ($("#frmSocio").valid()) {
-        //    console.log('btnGuardarSocio');
-        //    satDropzone.processQueue();
-        //} else
-        //    console.log("IN-valido")
     });
     $('[rel=tooltip]').tooltip({ trigger: "hover" });
     $('[data-toggle="tooltip"]').click(function () {

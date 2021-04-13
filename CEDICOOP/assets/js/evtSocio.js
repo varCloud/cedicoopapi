@@ -186,6 +186,7 @@ function InitDrop() {
                 swal("Error", "No se puede subir mas de un archivo", "error");
             });
             this.on("addedfile", function (file) {
+                console.log(satDropzone );
                 PintaIconoPreview(file);
             });
             this.on("removedfile", function (file) {
@@ -231,8 +232,9 @@ function InitDrop() {
             console.log(file);
         },
         error: function (file, response) {
+            notificacion("warning", response);
             file.previewElement.classList.add("dz-error");
-            $('#verticalCenter').modal('hide');
+            $(file.previewElement).find('.dz-error-message').html(response);
             console.log(response);
 
         }
@@ -320,11 +322,13 @@ function EditarSocio(idSocio) {
     $.each(data.Expedientes, function (index, value) {
 
         var URLdomainImage = "http://" + window.location.host + value.pathExpediente;
-        var mockFile = { name: value.nombreDoc, size: value.pesoByte, id: value.id, pathExpediente: value.pathExpediente };
-        satDropzone.emit("addedfile", mockFile);
+        var mockFile = { status: "queued" ,  name: value.nombreDoc, size: value.pesoByte, id: value.id, pathExpediente: value.pathExpediente };
         satDropzone.files.push(mockFile);
+        console.log(satDropzone.files);
+        satDropzone.emit("addedfile", mockFile);   
         satDropzone.options.thumbnail.call(satDropzone, mockFile, URLdomainImage);
         satDropzone.emit("complete", mockFile);
+        //satDropzone._updateMaxFilesReachedClass();
     });
     $('#dropZoneExpediente').css('display', '');
     $('#rowExpedientes').css('display', 'none');

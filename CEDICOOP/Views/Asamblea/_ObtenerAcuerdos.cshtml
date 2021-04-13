@@ -18,10 +18,11 @@
                         </div>
                         @if (accion == CEDICOOP.Models.AccionAcuerdo.Agregar)
                         {
-                            <div id="dvAcciones_@item.IdAcuerdo">
-                                <a href="javascript:ActivarEditarAcuerdo('@Html.Raw(@item.Descripcion)',@item.IdAsamblea,@item.IdAcuerdo);" data-toggle="tooltip" title="Editar" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-primary"><i class="fa fa-edit"></i></a>
-                                @Ajax.RawActionLink(string.Format("<i class='ti ti-close'></i>"), "EliminarAcuerdo", "Asamblea", new { IdAcuerdo = item.IdAcuerdo, IdAsamblea = item.IdAsamblea }, new AjaxOptions { OnSuccess = "SuccessEliminaAcuerdo", HttpMethod = "POST" }, new { @title = "Eliminar", @class = "tooltip-wrapper btn btn-icon btn-round btn-outline-danger ml-2" })
-                            </div>
+                        <div id="dvAcciones_@item.IdAcuerdo">
+                            <a href="javascript:ActivarEditarAcuerdo('@Html.Raw(@item.Descripcion)',@item.IdAsamblea,@item.IdAcuerdo);" data-toggle="tooltip" title="Editar" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-primary"><i class="fa fa-edit"></i></a>
+                            <a href="javascript:EliminarAcuerdo('@Html.Raw(@item.Descripcion)',@item.IdAsamblea,@item.IdAcuerdo);" data-toggle="tooltip" title="Eliminar Acuerdo" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-danger"><i class="ti ti-close"></i></a>
+                            @* @Ajax.RawActionLink(string.Format("<i class='ti ti-close'></i>"), "EliminarAcuerdo", "Asamblea", new { IdAcuerdo = item.IdAcuerdo, IdAsamblea = item.IdAsamblea }, new AjaxOptions { OnSuccess = "SuccessEliminaAcuerdo", HttpMethod = "POST" }, new { @title = "Eliminar", @class = "tooltip-wrapper btn btn-icon btn-round btn-outline-danger ml-2" })-->*@
+                        </div>
                             <div id="dvGuardaAcuerdo_@item.IdAcuerdo" style="display:none">
                                 <a href="javascript:GuardarEditarAcuerdo('@Html.Raw(@item.Descripcion)',@item.IdAsamblea,@item.IdAcuerdo);" data-toggle="tooltip" title="Guardar" class=" tooltip-wrapper btn btn-icon btn-round btn-outline-success"><i class="ti ti-save-alt"></i></a>
                             </div>
